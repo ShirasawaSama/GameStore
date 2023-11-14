@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+    mongodb:
+        image: mongo:latest
+        container_name: mongodb
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: admin
+            MONGO_INITDB_DATABASE: GameStore
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./db/:/docker-entrypoint-initdb.d/:ro
+
+    backend:
+        build: .
+        container_name: backend
+        restart: always
+        ports:
+            - "5000:5000"
+        profiles:
+            - prod
+        depends_on:
+            - mongodb
+        environment:
+            DB_URI: mongodb+srv://admin:admin@127.0.0.1/GameStore
+            FLASK_ENV: development
+            FLASK_APP: app.py
+        volumes:
+            - ./backend:/app
+        command: flask run --host=
