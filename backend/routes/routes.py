@@ -1,8 +1,10 @@
 from .user import route as user
+from .games import route as games
 
 
 routes = [
-    user.blueprint
+    user.blueprint,
+    games.blueprint,
 ]
 
 

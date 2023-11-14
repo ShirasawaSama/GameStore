@@ -25,7 +25,6 @@ services:
         depends_on:
             - mongodb
         environment:
-            DB_URI: mongodb+srv://admin:admin@127.0.0.1/GameStore
             FLASK_ENV: development
             FLASK_APP: app.py
         volumes:
