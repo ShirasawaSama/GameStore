@@ -34,4 +34,10 @@ export class AppComponent {
       this.currentRandomGame = this.randomGames[0]
     })
   }
+
+  nextVideo (): void {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const index = this.randomGames.indexOf(this.currentRandomGame!)
+    this.currentRandomGame = this.randomGames[index >= this.randomGames.length - 1 ? 0 : index + 1]
+  }
 }

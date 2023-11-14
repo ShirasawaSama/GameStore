@@ -9,7 +9,7 @@
   <div class="search">
     <mat-icon fontIcon="search" />
     <input autocomplete="off" spellcheck="false" type="text" placeholder="Search games..." [(ngModel)]="search">
-    <button [style.opacity]="search ? 1 : 0" matSuffix mat-icon-button (click)="search=''">
+    <button [style.opacity]="search ? 1 : 0" matSuffix mat-icon-button (click)="search = ''">
       <mat-icon>close</mat-icon>
     </button>
   </div>
@@ -24,14 +24,16 @@
   </button>
 </mat-toolbar>
 
-<main class="main">
+<main [style.height]="search ? 0 : '100vh'">
   <div class="video-wrapper">
-    <video autoplay [muted]="true" loop playsinline *ngIf="currentRandomGame" [src]="currentRandomGame.movies[0]" id="video"></video>
+    <video autoplay [muted]="true" playsinline *ngIf="currentRandomGame" [src]="currentRandomGame.movies[0]" id="video" (ended)="nextVideo()"></video>
   </div>
   <div *ngIf="currentRandomGame" class="games">
     <div class="info">
-      <img [src]="currentRandomGame.header_image" class="mat-elevation-z4">
-      <h1>{{currentRandomGame.name}}</h1>
+      <a target="_blank" [href]="'https://store.steampowered.com/app/526870/Satisfactory/' + currentRandomGame._id">
+        <img [src]="currentRandomGame.header_image" class="mat-elevation-z4">
+        <h1>{{currentRandomGame.name}}</h1>
+      </a>
       <p>{{currentRandomGame.about_the_game}}</p>
       <span class="review">{{currentRandomGame.positive}}&nbsp;&nbsp;<mat-icon>thumb_up</mat-icon></span>
       <span class="price"><span style="font-size: 16px">$</span>{{currentRandomGame.price}}</span>
@@ -41,5 +43,9 @@
     <li *ngFor="let game of randomGames" (mouseover)="currentRandomGame = game" [class.active]="currentRandomGame === game">{{game.name}}</li>
   </ul>
 </main>
+
+<section>
+
+</section>
 
 <router-outlet></router-outlet>
