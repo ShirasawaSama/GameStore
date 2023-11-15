@@ -1,0 +1,60 @@
+.game-card {
+  .info {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .card-header {
+    width: 100%;    
+    box-sizing: border-box;
+
+    &>* {
+      width: 100%;
+    }
+  }
+
+  .mat-mdc-chip-set {
+    padding-bottom: 8px;
+  }
+
+  .mdc-evolution-chip-set__chips {
+    flex-wrap: nowrap;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      transition: .2s;
+      height: 4px; 
+   }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0);
+      height: 4px; 
+      border-radius: 4px;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,.2);
+    }
+  }
+
+  .subtitle {
+    width: inherit;
+    text-overflow: ellipsis;
+    white-space: pre;
+    overflow: hidden;
+  }
+
+  .description {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-line-clamp: 4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    hyphens: auto;
+    // word-break: break-word;
+  }
+}

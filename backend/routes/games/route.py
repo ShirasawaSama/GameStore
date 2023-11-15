@@ -8,7 +8,7 @@ from . import model
 blueprint = Blueprint('game', __name__, url_prefix='/game')
 
 
-@blueprint.get('/query')
+@blueprint.get('/search')
 def get_games():
     page = request.args.get('page', 0, type=int)
     page_size = request.args.get('page_size', 10, type=int)
@@ -29,8 +29,7 @@ def get_games():
     if page_size < 1:
         page_size = 1
 
-    games = model.get_games(page, page_size, sort, sort_order, search, tags)
-    return jsonify(games=[game for game in games], page=page, page_size=page_size)
+    return jsonify(model.get_games(page, page_size, sort, sort_order, search, tags))
 
 
 @blueprint.get('/random')

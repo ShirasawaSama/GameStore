@@ -16,6 +16,6 @@ export default class GameService {
   }
 
   searchGames (query: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/search?q=${query}`)
+    return this.http.get(`${this.apiUrl}/search?${query}`)
   }
 }

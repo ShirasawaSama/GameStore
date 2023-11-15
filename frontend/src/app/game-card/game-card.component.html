@@ -1,0 +1,18 @@
+<mat-card class="game-card">
+  <img mat-card-image [src]="game.header_image" [alt]="game.name">
+
+  <mat-card-header class="card-header">
+    <mat-card-title>{{game.name}}</mat-card-title>
+    <mat-card-subtitle class="subtitle">{{game.publishers.join(', ')}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="description">
+    <mat-chip-set>
+      <mat-chip *ngFor="let tag of tags">{{tag}}</mat-chip>
+    </mat-chip-set>
+    <p>{{game.short_description}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <a target="_blank" [href]="'https://store.steampowered.com/app/' + game._id"><button mat-button>PLAY</button></a>
+    <button mat-button>LIKE</button>
+  </mat-card-actions>
+</mat-card>
