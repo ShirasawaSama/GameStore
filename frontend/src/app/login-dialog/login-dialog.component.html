@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>
+  @if (isRegister) {
+    Register
+  } @else {
+    Login
+  }
+</h1>
+<div mat-dialog-content>
+  <p>Welcome to GameStore!</p>
+  <div class="fields">
+    <mat-form-field>
+      <mat-label>USERNAME</mat-label>
+      <input matInput [(ngModel)]="username">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>PASSWORD</mat-label>
+      <input type="password" matInput [(ngModel)]="password">
+    </mat-form-field>
+    @if (isRegister) {
+      <mat-form-field>
+        <mat-label>CONFIRM PASSWORD</mat-label>
+        <input type="password" matInput [(ngModel)]="confirmPassword">
+      </mat-form-field>
+    }
+  </div>
+  <p>
+    @if (isRegister) {
+      If you already have an account, please <a (click)="isRegister = false" style="font-weight: bold; text-decoration: underline">login</a> first.
+    } @else {
+      If you don't have an account, please <a (click)="isRegister = true" style="font-weight: bold; text-decoration: underline">register</a> first.
+    }
+  </p>
+  @if (error) {
+    <mat-error>{{error}}</mat-error>
+  }
+</div>
+<div mat-dialog-actions style="justify-content: end">
+  <button mat-button (click)="onCancelClick()">Cancel</button>
+  <button mat-button (click)="onOkClick()" cdkFocusInitial>
+    @if (isRegister) {
+      Register
+    } @else {
+      Login
+    }
+  </button>
+</div>

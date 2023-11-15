@@ -4,25 +4,30 @@ import { RouterOutlet } from '@angular/router'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
 import { MatToolbarModule } from '@angular/material/toolbar'
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { MatDialogModule, MatDialog } from '@angular/material/dialog'
 import { MatPaginatorModule, type PageEvent } from '@angular/material/paginator'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { FormsModule } from '@angular/forms'
 import { MatInputModule } from '@angular/material/input'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { HttpClientModule } from '@angular/common/http'
-import { GameCardComponent } from './game-card/game-card.component'
 import { Subject, debounceTime } from 'rxjs'
 
 import GameService from './app.service'
+import { GameCardComponent } from './game-card/game-card.component'
+import { LoginDialog } from './login-dialog/login-dialog.component'
 import type { Game } from '../types'
+import { AuthService } from './auth.service'
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, RouterOutlet, MatToolbarModule, MatButtonModule, MatIconModule, FormsModule,
-    MatInputModule, MatFormFieldModule, HttpClientModule, NgFor, NgIf, GameCardComponent, MatPaginatorModule
+    CommonModule, RouterOutlet, MatToolbarModule, MatButtonModule, MatIconModule, FormsModule, MatDialogModule,
+    MatInputModule, MatFormFieldModule, HttpClientModule, NgFor, NgIf, GameCardComponent, MatPaginatorModule, MatSnackBarModule
   ],
-  providers: [GameService],
+  providers: [GameService, AuthService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
   encapsulation: ViewEncapsulation.None
@@ -32,13 +37,14 @@ export class AppComponent {
   randomGames: Game[] = []
   currentRandomGame: Game | null = null
   games: Game[] = []
+  searchInfo = 'Searching...'
   pageSize = 9
   length = 0
   pageIndex = 1
 
   private readonly search$ = new Subject<void>()
 
-  constructor (private readonly service: GameService) {}
+  constructor (private readonly service: GameService, private readonly dialog: MatDialog) {}
 
   get search (): string { return this._search }
   set search (value: string) {
@@ -64,9 +70,12 @@ export class AppComponent {
 
   private searchGames (): void {
     this.games = []
+    this.searchInfo = 'Searching...'
     this.service.searchGames(`search=${this.search}&page=${this.pageIndex}&page_size=${this.pageSize}`).subscribe((data) => {
-      console.log(data)
       this.games = data.games
+      if (data.games.length === 0) {
+        this.searchInfo = 'No results found.'
+      }
       this.length = data.total
       this.pageSize = data.pageSize
       this.pageIndex = data.page
@@ -74,10 +83,17 @@ export class AppComponent {
   }
 
   handlePageEvent (e: PageEvent): void {
-    console.log(e)
     this.length = e.length
     this.pageSize = e.pageSize
     this.pageIndex = e.pageIndex
     this.search$.next()
+  }
+
+  openLoginDialog (): void {
+    const dialogRef = this.dialog.open(LoginDialog)
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed')
+    })
   }
 }

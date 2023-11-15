@@ -54,3 +54,7 @@ export interface Sub {
   price: number
   text: string
 }
+
+export interface User {
+  sub: string
+}
