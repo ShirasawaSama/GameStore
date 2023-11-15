@@ -22,6 +22,8 @@ import { GameCardComponent } from './game-card/game-card.component'
 import { LoginDialog } from './login-dialog/login-dialog.component'
 import type { Game } from '../types'
 import { MatChipsModule } from '@angular/material/chips'
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { AuthService } from './auth.service'
 
 @Component({
   selector: 'app-root',
@@ -38,22 +40,24 @@ import { MatChipsModule } from '@angular/material/chips'
 export class AppComponent implements OnInit {
   randomGames: Game[] = []
   currentRandomGame: Game | null = null
-  isHomePage = false
+  currentGame = ''
 
   private readonly search$ = new Subject<void>()
 
   constructor (
     readonly service: GameService,
+    readonly auth: AuthService,
     private readonly dialog: MatDialog,
     private readonly router: Router,
     private readonly activedRouter: ActivatedRoute
   ) {
+    console.log((activedRouter.params as any).value)
     router.events.subscribe(() => this.checkHomePage())
     this.checkHomePage()
   }
 
   private checkHomePage (): void {
-    this.isHomePage = this.activedRouter.firstChild?.component == null
+    this.currentGame = this.activedRouter.snapshot.firstChild?.params?.['gameId']
   }
 
   get search (): string { return this.service.search }
@@ -64,6 +68,8 @@ export class AppComponent implements OnInit {
       void this.router.navigate(['/'])
     }
   }
+
+  get currentGameId (): string { return this.currentGame || (this.currentRandomGame?._id ?? '') }
 
   ngOnInit (): void {
     this.service.getRandomGames().subscribe((games) => {
@@ -88,6 +94,8 @@ export class AppComponent implements OnInit {
   }
 
   openLoginDialog (): void {
-    this.dialog.open(LoginDialog)
+    if (!this.auth.currentUser) {
+      this.dialog.open(LoginDialog)
+    }
   }
 }

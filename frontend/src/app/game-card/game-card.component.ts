@@ -7,6 +7,8 @@ import { MatCardModule } from '@angular/material/card'
 import type { Game } from '../../types'
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import GameService from '../app.service'
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { AuthService } from '../auth.service'
 
 @Component({
   selector: 'game-card',
@@ -19,7 +21,10 @@ import GameService from '../app.service'
 export class GameCardComponent {
   @Input() game: Game = null as unknown as Game
 
-  constructor (readonly service: GameService) { }
+  constructor (
+    readonly service: GameService,
+    readonly auth: AuthService
+  ) { }
 
   get tags (): string[] {
     return Object.entries(this.game.tags).sort((a, b) => b[1] - a[1]).map((tag) => tag[0])

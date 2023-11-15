@@ -25,7 +25,10 @@ export class AuthService {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     if (token) {
       const user = this.jwtHelperService.decodeToken(token)
-      if (user) this.currentUser = user
+      if (user) {
+        this.currentUser = user
+        this.updateLikes()
+      }
     }
   }
 
@@ -39,7 +42,10 @@ export class AuthService {
         }
         localStorage.setItem('token', response.access_token)
         const user = this.jwtHelperService.decodeToken(response.access_token)
-        if (user) this.currentUser = user
+        if (user) {
+          this.currentUser = user
+          this.updateLikes()
+        }
         return true
       })
     )
@@ -59,6 +65,33 @@ export class AuthService {
 
   logout (): void {
     this.currentUser = undefined
+  }
+
+  updateLikes (): void {
+    if (!this.currentUser) return
+    this.http.get<{ likes: string[] }>(`${this.apiUrl}/likes`).subscribe((response) => {
+      if (this.currentUser) {
+        const likes: Record<string, true> = { }
+        this.currentUser.likes = likes
+        response.likes.forEach((like) => {
+          likes[like] = true
+        })
+      }
+    })
+  }
+
+  likeGame (gameId: string): void {
+    if (!this.currentUser) return
+    ;(this.currentUser.likes[gameId] ? this.http.delete : this.http.put).call(this.http, `${this.apiUrl}/likes/${gameId}`, {}).subscribe(() => {
+      if (this.currentUser) {
+        if (this.currentUser.likes[gameId]) {
+          // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+          delete this.currentUser.likes[gameId]
+        } else {
+          this.currentUser.likes[gameId] = true
+        }
+      }
+    })
   }
 
   private encryptPassword (password: string): Observable<string> {

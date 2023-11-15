@@ -55,7 +55,7 @@ export class GameDetailComponent implements OnDestroy {
     private readonly snackBar: MatSnackBar,
     readonly auth: AuthService
   ) {
-    router.params.subscribe((params) => this.refresh(params['id']))
+    router.params.subscribe((params) => this.refresh(params['gameId']))
   }
 
   private refresh (id = this.game?._id): void {
@@ -66,7 +66,6 @@ export class GameDetailComponent implements OnDestroy {
         return
       }
       this.game = game.game
-      console.log(this.game?.comments)
 
       setTimeout(() => {
         if (!this.sliderRef) return

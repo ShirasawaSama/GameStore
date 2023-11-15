@@ -58,6 +58,7 @@ export interface Sub {
 
 export interface User {
   sub: string
+  likes: Record<string, true>
 }
 
 export interface Comment {

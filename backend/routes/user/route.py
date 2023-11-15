@@ -93,3 +93,30 @@ def change_password():
     model.update_user(username, password)
 
     return jsonify(access_token=create_access_token(identity=username))
+
+
+@blueprint.put('/likes/<game_id>')
+@jwt_required()
+def like_game(game_id):
+    username = get_jwt_identity()
+    if not username:
+        return jsonify({'error': 'User not found'})
+    return jsonify(result=model.like_game(game_id, username).acknowledged)
+
+
+@blueprint.delete('/likes/<game_id>')
+@jwt_required()
+def unlike_game(game_id):
+    username = get_jwt_identity()
+    if not username:
+        return jsonify({'error': 'User not found'})
+    return jsonify(result=model.unlike_game(game_id, username).acknowledged)
+
+
+@blueprint.get('/likes')
+@jwt_required()
+def get_likes():
+    username = get_jwt_identity()
+    if not username:
+        return jsonify({'error': 'User not found'})
+    return jsonify(likes=model.get_user_by_username(username)['likes'])
