@@ -1,4 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core'
+import { RouterModule } from '@angular/router'
 import { CommonModule } from '@angular/common'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatButtonModule } from '@angular/material/button'
@@ -8,7 +9,7 @@ import type { Game } from '../../types'
 @Component({
   selector: 'game-card',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatChipsModule],
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatChipsModule, RouterModule],
   templateUrl: './game-card.component.html',
   styleUrl: './game-card.component.less',
   encapsulation: ViewEncapsulation.None

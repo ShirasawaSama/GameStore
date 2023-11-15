@@ -12,7 +12,7 @@
     <p>{{game.short_description}}</p>
   </mat-card-content>
   <mat-card-actions>
-    <a target="_blank" [href]="'https://store.steampowered.com/app/' + game._id"><button mat-button>PLAY</button></a>
+    <a [routerLink]="'/game/' + game._id"><button mat-button>DETAILS</button></a>
     <button mat-button>LIKE</button>
   </mat-card-actions>
 </mat-card>

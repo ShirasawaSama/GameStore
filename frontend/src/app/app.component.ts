@@ -1,11 +1,13 @@
-import { Component, ViewEncapsulation } from '@angular/core'
+import { Component, ViewEncapsulation, type OnInit } from '@angular/core'
 import { CommonModule, NgFor, NgIf } from '@angular/common'
-import { RouterOutlet } from '@angular/router'
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { ActivatedRoute, RouterModule, Router } from '@angular/router'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
 import { MatToolbarModule } from '@angular/material/toolbar'
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { MatDialogModule, MatDialog } from '@angular/material/dialog'
+import { MatMenuModule } from '@angular/material/menu'
 import { MatPaginatorModule, type PageEvent } from '@angular/material/paginator'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { FormsModule } from '@angular/forms'
@@ -24,7 +26,7 @@ import { AuthService } from './auth.service'
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, RouterOutlet, MatToolbarModule, MatButtonModule, MatIconModule, FormsModule, MatDialogModule,
+    CommonModule, RouterModule, MatToolbarModule, MatButtonModule, MatIconModule, FormsModule, MatDialogModule, MatMenuModule,
     MatInputModule, MatFormFieldModule, HttpClientModule, NgFor, NgIf, GameCardComponent, MatPaginatorModule, MatSnackBarModule
   ],
   providers: [GameService, AuthService],
@@ -32,8 +34,8 @@ import { AuthService } from './auth.service'
   styleUrls: ['./app.component.less'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
-  private _search = 'a'
+export class AppComponent implements OnInit {
+  private _search = ''
   randomGames: Game[] = []
   currentRandomGame: Game | null = null
   games: Game[] = []
@@ -41,15 +43,31 @@ export class AppComponent {
   pageSize = 9
   length = 0
   pageIndex = 1
+  isHomePage = false
 
   private readonly search$ = new Subject<void>()
 
-  constructor (private readonly service: GameService, private readonly dialog: MatDialog) {}
+  constructor (
+    private readonly service: GameService,
+    private readonly dialog: MatDialog,
+    private readonly router: Router,
+    private readonly activedRouter: ActivatedRoute
+  ) {
+    router.events.subscribe(() => this.checkHomePage())
+    this.checkHomePage()
+  }
+
+  private checkHomePage (): void {
+    this.isHomePage = this.activedRouter.firstChild?.component == null
+  }
 
   get search (): string { return this._search }
   set search (value: string) {
     this._search = value
     this.search$.next()
+    if (this.activedRouter.firstChild?.component != null) {
+      void this.router.navigate(['/'])
+    }
   }
 
   ngOnInit (): void {

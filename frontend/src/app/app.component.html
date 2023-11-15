@@ -26,13 +26,13 @@
   </button>
 </mat-toolbar>
 
-<main [style.height]="search ? 0 : '100vh'">
+<div class="random-games" [style.height]="search || !isHomePage ? 0 : '100vh'">
   <div class="video-wrapper">
     <video autoplay [muted]="true" playsinline *ngIf="currentRandomGame" [src]="currentRandomGame.movies[0]" id="video" (ended)="nextVideo()"></video>
   </div>
   <div *ngIf="currentRandomGame" class="games">
     <div class="info">
-      <a target="_blank" [href]="'https://store.steampowered.com/app/' + currentRandomGame._id">
+      <a [routerLink]="'/game/' + currentRandomGame._id">
         <img [src]="currentRandomGame.header_image" class="mat-elevation-z4">
         <h1>{{currentRandomGame.name}}</h1>
       </a>
@@ -42,26 +42,35 @@
     </div>
   </div>
   <ul *ngIf="randomGames">
-    <a *ngFor="let game of randomGames" target="_blank" [href]="'https://store.steampowered.com/app/' + game._id">
+    <a *ngFor="let game of randomGames" [routerLink]="'/game/' + game._id">
       <li (mouseover)="currentRandomGame = game" [class.active]="currentRandomGame === game">{{game.name}}</li>
     </a>
   </ul>
+</div>
+
+<main>
+  @if (isHomePage) {
+    <div class="cards">
+      @if (games.length) {
+        <game-card *ngFor="let game of games" [game]="game"></game-card>
+      } @else {
+        <h1>{{searchInfo}}</h1>
+      }
+    </div>
+  }
+
+  <router-outlet></router-outlet>
+  <div style="height: 50px"></div>
+  <footer>
+    @if (isHomePage) {
+      <mat-paginator
+        (page)="handlePageEvent($event)"
+        [pageSizeOptions]="[9, 51, 99]"
+        [length]="length"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+      ></mat-paginator>
+    }
+    Copyright © 2023 <a target="_blank" href="https://github.com/ShirasawaSama">Shirasawa</a>. All rights reserved.
+  </footer>
 </main>
-
-<section class="search-games">
-  <div class="cards" *ngIf="games.length">
-    <game-card *ngFor="let game of games" [game]="game"></game-card>
-  </div>
-  <div class="cards" *ngIf="!games.length">
-    <h1>{{searchInfo}}</h1>
-  </div>
-  <mat-paginator
-    (page)="handlePageEvent($event)"
-    [pageSizeOptions]="[9, 51, 99]"
-    [length]="length"
-    [pageIndex]="pageIndex"
-    [pageSize]="pageSize"
-  ></mat-paginator>
-</section>
-
-<router-outlet></router-outlet>

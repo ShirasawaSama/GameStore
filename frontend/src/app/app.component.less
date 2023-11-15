@@ -12,6 +12,7 @@ body {
   background-color: #171d27;
   background-size: 100% 100%;
   background-position: 0px 0px;
+  background-attachment: fixed;
 }
 
 .header {
@@ -73,14 +74,13 @@ body {
   // }
 }
 
-main {
+.random-games {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: height .3s ease-in-out;
   overflow: hidden;
-  padding-left: 5rem;
 
   .video-wrapper {
     position: absolute;
@@ -105,6 +105,7 @@ main {
     bottom: 10%;
     color: #fff;
     padding: 20px;
+    margin-left: 5rem;
     width: 100%;
     max-width: 1200px;
     display: flex;
@@ -193,10 +194,9 @@ main {
   }
 }
 
-.search-games {
+main {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  position: relative;
 
   h1 {
     color: #fff;
@@ -217,6 +217,19 @@ main {
     img {
       width: 100%;
     }
+  }
+
+  footer {
+    background-color: #fff;
+    font-size: 12px;
+    text-align: center;
+    color: rgba(0,0,0,0.4);
+    letter-spacing: 1px;
+    padding: 6px 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 
