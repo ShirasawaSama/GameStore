@@ -25,7 +25,6 @@ export class AuthService {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     if (token) {
       const user = this.jwtHelperService.decodeToken(token)
-      console.log(user)
       if (user) this.currentUser = user
     }
   }

@@ -41,6 +41,7 @@ export interface Game {
   user_score: number
   website: string
   windows: boolean
+  comments?: Comment[]
 }
 
 export interface Package {
@@ -57,4 +58,12 @@ export interface Sub {
 
 export interface User {
   sub: string
+}
+
+export interface Comment {
+  _id: string
+  username: string
+  comment: string
+  date: string
+  likes: string[]
 }

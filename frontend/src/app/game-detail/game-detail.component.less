@@ -5,14 +5,23 @@
   box-sizing: border-box;
   padding: 40px;
 
-  h1, h3 {
-    letter-spacing: 1px;
-    color: #fff;
+  h1 {
+    display: flex;
+    align-items: center;
 
     span {
       float: right;
       letter-spacing: 2px;
     }
+
+    a {
+      opacity: 0.4;
+    }
+  }
+
+  h1, h3 {
+    letter-spacing: 1px;
+    color: #fff;
   }
 
   p {
@@ -91,16 +100,23 @@
       width: 100%;
     }
 
+    .wrapper {
+      padding: 16px 16px 0;
+    }
+
     .description {
       color: #fff;
       letter-spacing: 1px;
       font-size: 14px;
       margin-top: 10px;
-      padding: 16px 16px 0;
       hyphens: auto;
 
       p {
         line-height: 1.2;
+      }
+
+      button {
+        color: inherit;
       }
     }
 
@@ -174,7 +190,42 @@
   .comments {
     width: 70%;
 
-    p { opacity: .6; }
+    p {
+      color: rgba(255, 255, 255, .5)
+    }
+
+    .comment {
+      display: flex;
+
+      p {
+        flex: 1;
+        padding: 16px;
+        height: fit-content;
+      }
+    }
+
+    .user {
+      color: #fff;
+      letter-spacing: 1px;
+      margin-right: 20px;
+
+      .date, .likes {
+        font-size: 12px;
+        font-weight: normal;
+        color: rgba(255, 255, 255, .4);
+        line-height: 14px;
+      }
+
+      .likes {
+        display: flex;
+        align-items: center;
+
+        button {
+          margin-left: -16px;
+          transform: scale(0.8);
+        }
+      }
+    }
   }
 
   .about-the-game {

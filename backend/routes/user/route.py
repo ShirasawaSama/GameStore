@@ -55,7 +55,7 @@ def login():
     if not user or encrypt_password(password, user['salt']) != user['password']:
         return jsonify({'error': 'Bad username or password'})
 
-    return jsonify(access_token=create_access_token(identity=username))
+    return jsonify(access_token=create_access_token(identity=username, expires_delta=False))
 
 
 @blueprint.post('/register')
@@ -79,7 +79,7 @@ def register():
 
 
 @blueprint.patch('/change-password')
-@jwt_required
+@jwt_required()
 def change_password():
     username = get_jwt_identity()
     password = request.json.get('password', None)

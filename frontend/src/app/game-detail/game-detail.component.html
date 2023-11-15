@@ -1,6 +1,13 @@
 @if (game) {
   <div class="game-detail">
-    <h1 class="shadow-text">{{game.name}} <span>${{game.price}}</span></h1>
+    <h1 class="shadow-text">{{game.name}}
+      <span style="margin-left: auto;">${{game.price}}</span>
+      <a target="_blank" [href]="'https://store.steampowered.com/app/' + game._id">
+        <button mat-icon-button>
+          <svg viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1448" width="200" height="200"><path d="M904.045714 332.580571q0 57.709714-40.886857 98.596571t-98.596571 40.886857-98.596571-40.886857-40.886857-98.596571 40.886857-98.596571 98.596571-40.886857 98.596571 40.886857 40.886857 98.596571zM464.091429 756.589714q0-59.465143-41.691429-101.156571t-101.156571-41.691429q-15.433143 0-30.866286 3.437714l59.465143 23.990857q44.032 17.700571 62.537143 60.854857t0.877714 86.601143q-17.700571 44.032-61.147429 62.317714t-86.820571 0.585143q-11.995429-4.534857-35.401143-13.970286t-34.889143-13.970286q18.285714 34.304 52.004571 55.149714t74.313143 20.845714q59.465143 0 101.156571-41.691429t41.691429-101.156571zM938.349714 333.165714q0-71.972571-51.126857-123.172571t-123.172571-51.126857q-72.557714 0-123.684571 51.126857t-51.126857 123.172571q0 72.557714 51.126857 123.465143t123.684571 50.834286q71.972571 0 123.172571-50.834286t51.126857-123.465143zM1024.073143 333.165714q0 108.032-76.288 184.027429t-183.734857 75.995429l-249.709714 182.272q-6.875429 73.728-62.317714 124.562286t-130.852571 50.834286q-69.12 0-122.294857-43.446857t-67.437714-109.714286l-131.437714-52.589714 0-245.174857 222.281143 89.746286q45.129143-27.428571 98.889143-27.428571 7.460571 0 19.968 1.170286l162.304-232.594286q1.170286-106.861714 77.458286-182.272t183.149714-75.410286q107.446857 0 183.734857 76.288t76.288 183.734857z"></path></svg>
+        </button>
+      </a>
+    </h1>
     <div>
       <div class="medias">
         <div class="navigation-wrapper mat-elevation-z6">
@@ -42,45 +49,89 @@
             [class]="'dot ' + (i === currentSlide ? 'active' : '')"
           ></button>
         </div>
-        <mat-chip-set>
-          <mat-chip *ngFor="let tag of tags">{{tag}}</mat-chip>
-        </mat-chip-set>
+        <mat-chip-listbox>
+          <mat-chip-option [selected]="gameService.searchTag === tag" *ngFor="let tag of tags" (click)="gameService.searchTag = tag">{{tag}}</mat-chip-option>
+        </mat-chip-listbox>
       </div>
 
       <div class="details">
         <img [src]="game.header_image" class="mat-elevation-z6">
         <div class="description shadow-card mat-elevation-z6">
-          <p>{{game.short_description}}</p>
-          <div class="info">
-            <ul class="names">
-              <li>Favorable Rating:</li>
-              <li>metacritic score:</li>
-              <br>
-              <li>release date:</li>
-              <li>estimated owners:</li>
-              <br>
-              <li>developers:</li>
-              <li>publishers:</li>
-            </ul>
-            <ul class="values">
-              <li>{{(game.positive / (game.positive + game.negative) * 100).toFixed(0)}}%<span>({{game.positive > game.negative ? game.positive : game.negative}})</span></li>
-              <li>{{game.metacritic_score}}</li>
-              <br>
-              <li>{{game.release_date}}</li>
-              <li>{{game.estimated_owners}}</li>
-              <br>
-              <li><a target="_blank" [href]="game.website">{{game.developers.join(', ')}}</a></li>
-              <li>{{game.publishers.join(', ')}}</li>
-            </ul>
+          <div class="wrapper">
+            <p>{{game.short_description}}</p>
+            <div class="info">
+              <ul class="names">
+                <li>Favorable Rating:</li>
+                <li>metacritic score:</li>
+                <br>
+                <li>release date:</li>
+                <li>estimated owners:</li>
+                <br>
+                <li>developers:</li>
+                <li>publishers:</li>
+              </ul>
+              <ul class="values">
+                <li>{{(game.positive / (game.positive + game.negative) * 100).toFixed(0)}}%<span>({{game.positive > game.negative ? game.positive : game.negative}})</span></li>
+                <li>{{game.metacritic_score}}</li>
+                <br>
+                <li>{{game.release_date}}</li>
+                <li>{{game.estimated_owners}}</li>
+                <br>
+                <li><a target="_blank" [href]="game.website">{{game.developers.join(', ')}}</a></li>
+                <li>{{game.publishers.join(', ')}}</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="shadow-text comments">
-      <h3>ABOUT THE GAME</h3>
-      <p class="about-the-game">{{game.about_the_game}}</p>
-      <h3>COMMENTS</h3>
+    <div class="comments">
+      <h3 class="shadow-text">ABOUT THE GAME</h3>
+      <p class="about-the-game shadow-text">{{game.about_the_game}}</p>
+
+      <h3 class="shadow-text">COMMENTS</h3>
+      <div class="comment-wrapper shadow-text" *ngIf="game.comments">
+        <div class="comment" *ngFor="let comment of game.comments">
+          <h4 class="user">
+            <div class="name">{{comment.username}}</div>
+            <div class="date" timeago [date]="comment.date" [live]="true"></div>
+            @if (auth.currentUser) {
+              <div class="likes">
+                @if (comment.username === auth.currentUser.sub) {
+                  <button mat-icon-button (click)="deleteComment(comment._id)" matTooltip="Delete">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                }
+                <button
+                  mat-icon-button
+                  (click)="likeComment(comment._id)"
+                  [matTooltip]="comment.likes.includes(auth.currentUser.sub) ? 'Dislike' : 'Like'"
+                  [color]="comment.likes.includes(auth.currentUser.sub) ? 'accent' : ''"
+                >
+                  <mat-icon>favorite</mat-icon>
+                </button>+{{comment.likes.length}}
+              </div>
+            }
+          </h4>
+          <p class="shadow-card mat-elevation-z6">{{comment.comment}}</p>
+        </div>
+      </div>
+
+      @if (auth.currentUser) {
+        <h3 class="shadow-text">ADD YOUR COMMENT</h3>
+        <mat-form-field style="width: 100%;">
+          <mat-label>Leave a comment</mat-label>
+          <textarea matInput maxlength="500" placeholder="Ex. It makes me feel..." [(ngModel)]="comment"></textarea>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!comment || comment.length > 500"
+          style="color:#fff; float: right"
+          (click)="addComment()"
+        >COMMENT</button>
+      }
     </div>
   </div>
 }

@@ -2,6 +2,9 @@ from flask import Blueprint
 from flask import jsonify
 from flask import request
 
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+
 from . import model
 
 
@@ -54,9 +57,11 @@ def add_game(game_id):
     return jsonify(model.add_game(game))
 
 
-@blueprint.post('/<game_id>/comment')
-@jwt_required
-def add_comment(game_id, comment):
+@blueprint.put('/<game_id>/comment')
+@jwt_required()
+def add_comment(game_id):
+    data = request.get_json()
+    comment = data.get('comment', None)
     username = get_jwt_identity()
     if not username:
         return jsonify({'error': 'User not found'})
@@ -64,31 +69,31 @@ def add_comment(game_id, comment):
         return jsonify({'error': 'Comment cannot be empty'})
     if len(comment) > 500:
         return jsonify({'error': 'Comment cannot be longer than 500 characters'})
-    return jsonify(comment=model.add_comment(game_id, username, comment))
+    return jsonify(result=model.add_comment(game_id, username, comment).acknowledged)
 
 
 @blueprint.delete('/<game_id>/comment/<comment_id>')
-@jwt_required
+@jwt_required()
 def delete_comment(game_id, comment_id):
     username = get_jwt_identity()
     if not username:
         return jsonify({'error': 'User not found'})
-    return jsonify(result=model.delete_comment(game_id, username, comment_id))
+    return jsonify(result=model.delete_comment(game_id, username, comment_id).acknowledged)
 
 
 @blueprint.post('/<game_id>/comment/<comment_id>/like')
-@jwt_required
+@jwt_required()
 def like_comment(game_id, comment_id):
     username = get_jwt_identity()
     if not username:
         return jsonify({'error': 'User not found'})
-    return jsonify(result=model.like_comment(game_id, username, comment_id))
+    return jsonify(result=model.like_comment(game_id, username, comment_id).acknowledged)
 
 
 @blueprint.delete('/<game_id>/comment/<comment_id>/like')
-@jwt_required
+@jwt_required()
 def unlike_comment(game_id, comment_id):
     username = get_jwt_identity()
     if not username:
         return jsonify({'error': 'User not found'})
-    return jsonify(result=model.unlike_comment(game_id, username, comment_id))
+    return jsonify(result=model.unlike_comment(game_id, username, comment_id).acknowledged)

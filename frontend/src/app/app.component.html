@@ -5,6 +5,13 @@
   
   <div class="search">
     <mat-icon fontIcon="search" />
+    @if (service.searchTag) {
+      <mat-chip-row (removed)="service.searchTag = ''">{{service.searchTag}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    }
     <input autocomplete="off" spellcheck="false" type="text" placeholder="Search games..." [(ngModel)]="search">
     <button [style.opacity]="search ? 1 : 0" matSuffix mat-icon-button (click)="search = ''">
       <mat-icon>close</mat-icon>
@@ -52,10 +59,10 @@
   <div style="height: 70px"></div>
   @if (isHomePage) {
     <div class="cards">
-      @if (games.length) {
-        <game-card *ngFor="let game of games" [game]="game"></game-card>
+      @if (service.games.length) {
+        <game-card *ngFor="let game of service.games" [game]="game"></game-card>
       } @else {
-        <h1>{{searchInfo}}</h1>
+        <h1>{{service.searchInfo}}</h1>
       }
     </div>
   }
@@ -67,9 +74,9 @@
       <mat-paginator
         (page)="handlePageEvent($event)"
         [pageSizeOptions]="[9, 51, 99]"
-        [length]="length"
-        [pageIndex]="pageIndex"
-        [pageSize]="pageSize"
+        [length]="service.length"
+        [pageIndex]="service.pageIndex"
+        [pageSize]="service.pageSize"
       ></mat-paginator>
     }
     Copyright © 2023 <a target="_blank" href="https://github.com/ShirasawaSama">Shirasawa</a>. All rights reserved.

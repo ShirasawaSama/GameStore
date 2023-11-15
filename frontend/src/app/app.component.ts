@@ -16,39 +16,34 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { HttpClientModule } from '@angular/common/http'
 import { Subject, debounceTime } from 'rxjs'
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import GameService from './app.service'
 import { GameCardComponent } from './game-card/game-card.component'
 import { LoginDialog } from './login-dialog/login-dialog.component'
 import type { Game } from '../types'
-import { AuthService } from './auth.service'
+import { MatChipsModule } from '@angular/material/chips'
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     CommonModule, RouterModule, MatToolbarModule, MatButtonModule, MatIconModule, FormsModule, MatDialogModule, MatMenuModule,
-    MatInputModule, MatFormFieldModule, HttpClientModule, NgFor, NgIf, GameCardComponent, MatPaginatorModule, MatSnackBarModule
+    MatInputModule, MatFormFieldModule, HttpClientModule, NgFor, NgIf, GameCardComponent, MatPaginatorModule, MatSnackBarModule,
+    MatChipsModule
   ],
-  providers: [GameService, AuthService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
-  private _search = ''
   randomGames: Game[] = []
   currentRandomGame: Game | null = null
-  games: Game[] = []
-  searchInfo = 'Searching...'
-  pageSize = 9
-  length = 0
-  pageIndex = 1
   isHomePage = false
 
   private readonly search$ = new Subject<void>()
 
   constructor (
-    private readonly service: GameService,
+    readonly service: GameService,
     private readonly dialog: MatDialog,
     private readonly router: Router,
     private readonly activedRouter: ActivatedRoute
@@ -61,9 +56,9 @@ export class AppComponent implements OnInit {
     this.isHomePage = this.activedRouter.firstChild?.component == null
   }
 
-  get search (): string { return this._search }
+  get search (): string { return this.service.search }
   set search (value: string) {
-    this._search = value
+    this.service.search = value
     this.search$.next()
     if (this.activedRouter.firstChild?.component != null) {
       void this.router.navigate(['/'])
@@ -76,8 +71,7 @@ export class AppComponent implements OnInit {
       this.currentRandomGame = this.randomGames[0]
     })
 
-    this.search$.pipe(debounceTime(500)).subscribe(() => this.searchGames())
-    this.searchGames()
+    this.search$.pipe(debounceTime(500)).subscribe(() => this.service.searchGames())
   }
 
   nextVideo (): void {
@@ -86,32 +80,14 @@ export class AppComponent implements OnInit {
     this.currentRandomGame = this.randomGames[index >= this.randomGames.length - 1 ? 0 : index + 1]
   }
 
-  private searchGames (): void {
-    this.games = []
-    this.searchInfo = 'Searching...'
-    this.service.searchGames(`search=${this.search}&page=${this.pageIndex}&page_size=${this.pageSize}`).subscribe((data) => {
-      this.games = data.games
-      if (data.games.length === 0) {
-        this.searchInfo = 'No results found.'
-      }
-      this.length = data.total
-      this.pageSize = data.pageSize
-      this.pageIndex = data.page
-    })
-  }
-
   handlePageEvent (e: PageEvent): void {
-    this.length = e.length
-    this.pageSize = e.pageSize
-    this.pageIndex = e.pageIndex
+    this.service.length = e.length
+    this.service.pageSize = e.pageSize
+    this.service.pageIndex = e.pageIndex
     this.search$.next()
   }
 
   openLoginDialog (): void {
-    const dialogRef = this.dialog.open(LoginDialog)
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed')
-    })
+    this.dialog.open(LoginDialog)
   }
 }

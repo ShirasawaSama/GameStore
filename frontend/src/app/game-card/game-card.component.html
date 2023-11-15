@@ -6,9 +6,9 @@
     <mat-card-subtitle class="subtitle">{{game.publishers.join(', ')}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content class="description">
-    <mat-chip-set>
-      <mat-chip *ngFor="let tag of tags">{{tag}}</mat-chip>
-    </mat-chip-set>
+    <mat-chip-listbox>
+      <mat-chip-option [selected]="service.searchTag === tag" *ngFor="let tag of tags" (click)="service.searchTag = tag">{{tag}}</mat-chip-option>
+    </mat-chip-listbox>
     <p>{{game.short_description}}</p>
   </mat-card-content>
   <mat-card-actions>

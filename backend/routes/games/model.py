@@ -1,5 +1,6 @@
 from db import db
 from bson.objectid import ObjectId
+import datetime
 
 
 def get_game_by_id(game_id):
@@ -11,10 +12,8 @@ def get_games(page, page_size, sort, sort_order, search, tags):
     if search:
         query["name"] = {"$regex": search, "$options": "i"}
     if tags:
-        tags_search = {}
         for tag in tags:
-            tags_search[tag] = {"$exists": True}
-        query["tags"] = tags_search
+            query["tags" + "." + tag] = {"$exists": True}
 
     ret = db.games.find(query)
     if sort:
@@ -39,7 +38,8 @@ def add_comment(game_id, username, comment):
         "username": username,
         "comment": comment,
         "likes": [],
-        "_id": ObjectId(),
+        "date": str(datetime.datetime.now(datetime.UTC)),
+        "_id": str(ObjectId())
     }}})
 
 
