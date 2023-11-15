@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="mat-elevation-z6 header">
-  <span>GAME STORE</span>
+  <a [routerLink]="'/'" style="text-decoration: none">GAME STORE</a>
 
   <span style="flex: 1 1 auto; min-width: 50px;"></span>
   
@@ -26,14 +26,14 @@
   </button>
 </mat-toolbar>
 
-<div class="random-games" [style.height]="search || !isHomePage ? 0 : '100vh'">
+<div class="random-games" *ngIf="isHomePage" [style.height]="search || !isHomePage ? 0 : '100vh'">
   <div class="video-wrapper">
     <video autoplay [muted]="true" playsinline *ngIf="currentRandomGame" [src]="currentRandomGame.movies[0]" id="video" (ended)="nextVideo()"></video>
   </div>
   <div *ngIf="currentRandomGame" class="games">
     <div class="info">
       <a [routerLink]="'/game/' + currentRandomGame._id">
-        <img [src]="currentRandomGame.header_image" class="mat-elevation-z4">
+        <img [src]="currentRandomGame.header_image" class="mat-elevation-z6">
         <h1>{{currentRandomGame.name}}</h1>
       </a>
       <p>{{currentRandomGame.about_the_game}}</p>
@@ -43,12 +43,13 @@
   </div>
   <ul *ngIf="randomGames">
     <a *ngFor="let game of randomGames" [routerLink]="'/game/' + game._id">
-      <li (mouseover)="currentRandomGame = game" [class.active]="currentRandomGame === game">{{game.name}}</li>
+      <li class="shadow-text" (mouseover)="currentRandomGame = game" [class.active]="currentRandomGame === game">{{game.name}}</li>
     </a>
   </ul>
 </div>
 
 <main>
+  <div style="height: 70px"></div>
   @if (isHomePage) {
     <div class="cards">
       @if (games.length) {

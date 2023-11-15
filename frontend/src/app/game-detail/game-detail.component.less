@@ -1,0 +1,189 @@
+.game-detail {
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+  box-sizing: border-box;
+  padding: 40px;
+
+  h1, h3 {
+    letter-spacing: 1px;
+    color: #fff;
+
+    span {
+      float: right;
+      letter-spacing: 2px;
+    }
+  }
+
+  p {
+    color: #fff;
+    hyphens: auto;
+  }
+
+  .medias {
+    width: 70%;
+    overflow: hidden;
+    display: inline-block;
+    margin-bottom: 40px;
+
+    .navigation-wrapper {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .dots {
+      display: flex;
+      padding: 10px 0;
+      justify-content: center;
+    }
+
+    .dot {
+      border: none;
+      width: 10px;
+      height: 10px;
+      background: #c5c5c5;
+      border-radius: 50%;
+      margin: 0 5px;
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    .dot:focus {
+      outline: none;
+    }
+
+    .dot.active {
+      background: #3f51b5;
+    }
+
+    .arrow {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      fill: #fff;
+      cursor: pointer;
+    }
+
+    .arrow--left {
+      left: 5px;
+    }
+
+    .arrow--right {
+      left: auto;
+      right: 5px;
+    }
+
+    .arrow--disabled {
+      fill: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  .details {
+    width: calc(30% - 20px);
+    float: right;
+
+    img {
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    .description {
+      color: #fff;
+      letter-spacing: 1px;
+      font-size: 14px;
+      margin-top: 10px;
+      padding: 16px 16px 0;
+      hyphens: auto;
+
+      p {
+        line-height: 1.2;
+      }
+    }
+
+    .info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .names {
+        font-size: 12px;
+        opacity: 0.5;
+        margin-right: 12px;
+        text-transform: uppercase;
+      }
+
+      .values {
+        font-weight: bold;
+        min-width: 0;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li {
+        margin: 4px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: pre;
+
+        span {
+          font-size: 10px;
+          opacity: 0.4;
+          letter-spacing: 0;
+          margin-left: 4px;
+        }
+      }
+    }
+  }
+
+  .mdc-evolution-chip-set__chips {
+    flex-wrap: nowrap;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      transition: .2s;
+      height: 4px; 
+   }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0);
+      height: 4px; 
+      border-radius: 4px;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,.2);
+    }
+  }
+
+  h3 {
+    width: fit-content;
+    border-bottom: 2px solid #3f51b5;
+  }
+
+  .comments {
+    width: 70%;
+
+    p { opacity: .6; }
+  }
+
+  .about-the-game {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-line-clamp: 10;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-align: justify;
+    word-break: break-word;
+  }
+}

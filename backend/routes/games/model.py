@@ -1,8 +1,9 @@
 from db import db
+from bson.objectid import ObjectId
 
 
 def get_game_by_id(game_id):
-    return db.users.find_one({"_id": game_id})
+    return db.games.find_one({"_id": game_id})
 
 
 def get_games(page, page_size, sort, sort_order, search, tags):
@@ -31,3 +32,33 @@ def get_random_games():
         {"$match": {"metacritic_score": {"$gt": 60}, "movies": {"$elemMatch": {"$exists": True}}}},
         {"$sample": {"size": 5}}
     ])
+
+
+def add_comment(game_id, username, comment):
+    return db.games.update_one({"_id": game_id}, {"$push": {"comments": {
+        "username": username,
+        "comment": comment,
+        "likes": [],
+        "_id": ObjectId(),
+    }}})
+
+
+def delete_comment(game_id, username, comment_id):
+    return db.games.update_one({"_id": game_id}, {"$pull": {"comments": {
+        "_id": comment_id,
+        "username": username,
+    }}})
+
+
+def like_comment(game_id, username, comment_id):
+    return db.games.update_one(
+        {"_id": game_id, "comments._id": comment_id},
+        {"$addToSet": {"comments.$.likes": username}}
+    )
+
+
+def unlike_comment(game_id, username, comment_id):
+    return db.games.update_one(
+        {"_id": game_id, "comments._id": comment_id},
+        {"$pull": {"comments.$.likes": username}}
+    )

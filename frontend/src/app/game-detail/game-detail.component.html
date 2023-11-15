@@ -1,1 +1,86 @@
-<p>game-detail works!</p>
+@if (game) {
+  <div class="game-detail">
+    <h1 class="shadow-text">{{game.name}} <span>${{game.price}}</span></h1>
+    <div>
+      <div class="medias">
+        <div class="navigation-wrapper mat-elevation-z6">
+          <div class="keen-slider keen-slider--vertical" #sliderRef>
+            <video [autoplay]="i === 0" [muted]="'true'" controls *ngFor="let movie of game.movies; let i = index" [src]="movie" class="keen-slider__slide"></video>
+            <img *ngFor="let img of game.screenshots" [src]="img" class="keen-slider__slide" />
+          </div>
+          <svg
+            [ngClass]="
+              'arrow arrow--left ' + (currentSlide === 0 ? 'arrow--disabled' : '')
+            "
+            (click)="slider.prev()"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"
+            />
+          </svg>
+          <svg
+            *ngIf="slider"
+            [ngClass]="
+              'arrow arrow--right ' +
+              (slider.track.details.slides.length - 1 === currentSlide
+                ? 'arrow--disabled'
+                : '')
+            "
+            (click)="slider.next()"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+          </svg>
+        </div>
+        <div class="dots">
+          <button
+            *ngFor="let slide of dotHelper; let i = index"
+            (click)="slider.moveToIdx(i)"
+            [class]="'dot ' + (i === currentSlide ? 'active' : '')"
+          ></button>
+        </div>
+        <mat-chip-set>
+          <mat-chip *ngFor="let tag of tags">{{tag}}</mat-chip>
+        </mat-chip-set>
+      </div>
+
+      <div class="details">
+        <img [src]="game.header_image" class="mat-elevation-z6">
+        <div class="description shadow-card mat-elevation-z6">
+          <p>{{game.short_description}}</p>
+          <div class="info">
+            <ul class="names">
+              <li>Favorable Rating:</li>
+              <li>metacritic score:</li>
+              <br>
+              <li>release date:</li>
+              <li>estimated owners:</li>
+              <br>
+              <li>developers:</li>
+              <li>publishers:</li>
+            </ul>
+            <ul class="values">
+              <li>{{(game.positive / (game.positive + game.negative) * 100).toFixed(0)}}%<span>({{game.positive > game.negative ? game.positive : game.negative}})</span></li>
+              <li>{{game.metacritic_score}}</li>
+              <br>
+              <li>{{game.release_date}}</li>
+              <li>{{game.estimated_owners}}</li>
+              <br>
+              <li><a target="_blank" [href]="game.website">{{game.developers.join(', ')}}</a></li>
+              <li>{{game.publishers.join(', ')}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="shadow-text comments">
+      <h3>ABOUT THE GAME</h3>
+      <p class="about-the-game">{{game.about_the_game}}</p>
+      <h3>COMMENTS</h3>
+    </div>
+  </div>
+}

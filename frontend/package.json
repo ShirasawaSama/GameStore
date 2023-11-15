@@ -23,6 +23,7 @@
     "@angular/router": "^17.0.0",
     "@auth0/angular-jwt": "^5.2.0",
     "jsencrypt": "^3.3.2",
+    "keen-slider": "^6.8.6",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
