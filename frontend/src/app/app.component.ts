@@ -51,7 +51,6 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly activedRouter: ActivatedRoute
   ) {
-    console.log((activedRouter.params as any).value)
     router.events.subscribe(() => this.checkHomePage())
     this.checkHomePage()
   }
@@ -63,6 +62,7 @@ export class AppComponent implements OnInit {
   get search (): string { return this.service.search }
   set search (value: string) {
     this.service.search = value
+    this.service.pageIndex = 0
     this.search$.next()
     if (this.activedRouter.firstChild?.component != null) {
       void this.router.navigate(['/'])

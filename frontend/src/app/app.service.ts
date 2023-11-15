@@ -15,17 +15,17 @@ export default class GameService {
   searchInfo = 'Searching...'
   pageSize = 9
   length = 0
-  pageIndex = 1
+  pageIndex = 0
 
   get searchTag (): string { return this._searchTag }
   set searchTag (value: string) {
+    this.pageIndex = 0
     this._searchTag = value
     this.searchGames()
   }
 
   searchGames (): void {
     this.games = []
-    console.log(this.searchTag)
     this.searchInfo = 'Searching...'
     this.http.get<{
       games: Game[]

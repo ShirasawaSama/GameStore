@@ -33,7 +33,7 @@
   </button>
 </mat-toolbar>
 
-<div class="random-games" *ngIf="!currentGame" [style.height]="search || currentGame ? 0 : '100vh'">
+<div class="random-games" *ngIf="!currentGame && !service.searchTag" [style.height]="search || currentGame ? 0 : '100vh'">
   <div class="video-wrapper">
     <video autoplay [muted]="true" playsinline *ngIf="currentRandomGame" [src]="currentRandomGame.movies[0]" id="video" (ended)="nextVideo()"></video>
   </div>
