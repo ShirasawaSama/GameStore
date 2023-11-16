@@ -24,9 +24,5 @@ services:
             - prod
         depends_on:
             - mongodb
-        environment:
-            FLASK_ENV: development
-            FLASK_APP: app.py
         volumes:
-            - ./backend:/app
-        command: flask run --host=
+            - .:/app:ro

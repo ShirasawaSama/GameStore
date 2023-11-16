@@ -14,23 +14,25 @@ class PrefixMiddleware(object):
         if environ['PATH_INFO'].startswith(self.prefix):
             environ['PATH_INFO'] = environ['PATH_INFO'][len(self.prefix):]
             environ['SCRIPT_NAME'] = self.prefix
-            return self.app(environ, start_response)
-        else:
-            start_response('404', [('Content-Type', 'text/plain')])
-            return ["This url does not belong to the app.".encode()]
+        return self.app(environ, start_response)
 
 
 config = configparser.ConfigParser()
 config.read(os.path.abspath(os.path.join('config.ini')))
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 app.config["APPLICATION_ROOT"] = "/api"
 app.config['JWT_SECRET_KEY'] = config['PROD']['JWT_SECRET_KEY']
 app.config['MONGO_URI'] = config['PROD']['DB_URI']
 app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix='/api')
 jwt = JWTManager(app)
 routes.register_routers(app)
+
+
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
 
 
 def create_app(is_test=False):
