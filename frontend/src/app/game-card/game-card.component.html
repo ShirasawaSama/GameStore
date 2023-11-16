@@ -13,8 +13,8 @@
   </mat-card-content>
   <mat-card-actions>
     <a [routerLink]="'/game/' + game._id"><button mat-button>DETAILS</button></a>
-    <button mat-button (click)="auth.likeGame(game._id)" [color]="auth.currentUser?.likes?.[game._id] ? 'accent' : ''">
-      {{auth.currentUser?.likes?.[game._id] ? 'DISLIKE' : 'LIKE'}}
+    <button mat-button *ngIf="auth.currentUser" (click)="auth.likeGame(game._id)" [color]="auth.currentUser.likes[game._id] ? 'accent' : ''">
+      {{auth.currentUser.likes[game._id] ? 'DISLIKE' : 'LIKE'}}
     </button>
   </mat-card-actions>
 </mat-card>

@@ -30,6 +30,7 @@ export class AuthService {
     if (token) {
       const user = this.jwtHelperService.decodeToken(token)
       if (user) {
+        user.likes = { }
         this.currentUser = user
         this.updateLikes()
       }
@@ -47,6 +48,7 @@ export class AuthService {
         localStorage.setItem('token', response.access_token)
         const user = this.jwtHelperService.decodeToken(response.access_token)
         if (user) {
+          user.likes = { }
           this.currentUser = user
           this.updateLikes()
         }
