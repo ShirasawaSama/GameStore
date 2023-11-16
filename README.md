@@ -60,6 +60,18 @@ COMPOSE_PROFILES=prod docker-compose up -d
 
 Then open `http://localhost:5000` in your browser.
 
+## Test
+
+```
+cd backend
+
+python -m pytest
+
+cd ../frontend
+
+npm test
+```
+
 ## Author
 
 Shirasawa
