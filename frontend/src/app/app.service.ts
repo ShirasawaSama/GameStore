@@ -15,6 +15,8 @@ import { AuthService } from './auth.service'
 export default class GameService {
   private readonly apiUrl = '/api/game'
   private _searchTag = ''
+  private _sortBy = ''
+  private _order = ''
   search = ''
   games: Game[] = []
   searchInfo = 'Searching...'
@@ -48,6 +50,20 @@ export default class GameService {
     this.searchGames()
   }
 
+  get sortBy (): string { return this._sortBy }
+  set sortBy (value: string) {
+    this.pageIndex = 0
+    this._sortBy = value
+    this.searchGames()
+  }
+
+  get order (): string { return this._order }
+  set order (value: string) {
+    this.pageIndex = 0
+    this._order = value
+    this.searchGames()
+  }
+
   private getLikeGames (): void {
     if (!this.isProfilePage) return
     this.games = []
@@ -77,7 +93,9 @@ export default class GameService {
         total: number
         pageSize: number
         page: number
-      }>(`${this.apiUrl}/search?search=${this.search}&page=${this.pageIndex}&page_size=${this.pageSize}&tags=${this.searchTag}`).subscribe((data) => {
+      }>(
+        `${this.apiUrl}/search?search=${this.search}&page=${this.pageIndex}&page_size=${this.pageSize}&tags=${this.searchTag}&sort=${this.sortBy}&sort_order=${this.order}`
+      ).subscribe((data) => {
         this.games = data.games
         if (data.games.length === 0) {
           this.searchInfo = 'No results found.'

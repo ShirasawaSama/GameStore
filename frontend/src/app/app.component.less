@@ -211,13 +211,58 @@ main {
     background-color: #fff;
     font-size: 12px;
     text-align: center;
-    color: rgba(0,0,0,0.4);
     letter-spacing: 1px;
     padding: 6px 0;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+
+    .copyrigth {
+      color: rgba(0,0,0,0.4);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding-left: 12px;
+
+      .mat-mdc-form-field-bottom-align {
+        display: none;
+      }
+
+      .mat-mdc-paginator {
+        flex: 1;
+      }
+
+      .mat-mdc-form-field-flex {
+        height: 100%;
+      }
+
+      .mat-mdc-text-field-wrapper {
+        height: 41px;
+
+        .mat-mdc-form-field-infix {
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+
+      .action {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .action, .mat-mdc-select {
+        font-family: var(--mat-paginator-container-text-font);
+        line-height: var(--mat-paginator-container-text-line-height);
+        font-size: var(--mat-paginator-container-text-size);
+        font-weight: var(--mat-paginator-container-text-weight);
+        letter-spacing: var(--mat-paginator-container-text-tracking);
+      }
+    }
   }
 }
 

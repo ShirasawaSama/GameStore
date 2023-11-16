@@ -5,7 +5,6 @@ export interface Game {
   average_playtime_2weeks: number
   average_playtime_forever: number
   categories: string[]
-  detailed_description: string
   developers: string[]
   dlc_count: number
   estimated_owners: string
@@ -21,7 +20,6 @@ export interface Game {
   movies: string[]
   name: string
   negative: number
-  notes: string
   packages: Package[]
   peak_ccu: number
   positive: number
@@ -68,3 +66,26 @@ export interface Comment {
   date: string
   likes: string[]
 }
+
+export const GAME_FIELDS = [
+  'achievements',
+  'average_playtime_2weeks',
+  'average_playtime_forever',
+  'categories',
+  'dlc_count',
+  'linux',
+  'mac',
+  'median_playtime_2weeks',
+  'median_playtime_forever',
+  'metacritic_score',
+  'name',
+  'negative',
+  'peak_ccu',
+  'positive',
+  'price',
+  'recommendations',
+  'required_age',
+  'score_rank',
+  'user_score',
+  'windows'
+]

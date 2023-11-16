@@ -73,14 +73,33 @@
   <div style="height: 50px"></div>
   <footer>
     @if (!currentGame) {
-      <mat-paginator
-        (page)="handlePageEvent($event)"
-        [pageSizeOptions]="[9, 51, 99]"
-        [length]="service.length"
-        [pageIndex]="service.pageIndex"
-        [pageSize]="service.pageSize"
-      ></mat-paginator>
+      <div class="actions">
+        <div class="action">
+          Sort by: <mat-form-field appearance="outline" name="sort-by">
+            <mat-select [(ngModel)]="service.sortBy">
+              <mat-option [value]="''">None</mat-option>
+              <mat-option *ngFor="let field of filterFields" [value]="field">{{field}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="action">
+          Order: <mat-form-field appearance="outline" style="width: 120px;" name="order">
+            <mat-select [(ngModel)]="service.order">
+              <mat-option [value]="''">None</mat-option>
+              <mat-option [value]="'asc'">Ascending</mat-option>
+              <mat-option [value]="'desc'">Descending</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <mat-paginator
+          (page)="handlePageEvent($event)"
+          [pageSizeOptions]="[9, 51, 99]"
+          [length]="service.length"
+          [pageIndex]="service.pageIndex"
+          [pageSize]="service.pageSize"
+        ></mat-paginator>
+      </div>
     }
-    Copyright © 2023 <a target="_blank" href="https://github.com/ShirasawaSama">Shirasawa</a>. All rights reserved.
+    <div class="copyright">Copyright © 2023 <a target="_blank" href="https://github.com/ShirasawaSama">Shirasawa</a>. All rights reserved.</div>
   </footer>
 </main>
