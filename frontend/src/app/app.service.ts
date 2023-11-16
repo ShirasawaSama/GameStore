@@ -94,7 +94,8 @@ export default class GameService {
         pageSize: number
         page: number
       }>(
-        `${this.apiUrl}/search?search=${this.search}&page=${this.pageIndex}&page_size=${this.pageSize}&tags=${this.searchTag}&sort=${this.sortBy}&sort_order=${this.order}`
+        `${this.apiUrl}/search?search=${this.search}&page=${this.pageIndex}&page_size=${this.pageSize}&tags=${this.searchTag}&sort_order=${this.order}` +
+          (this.sortBy ? `&sort=${this.sortBy}` : '')
       ).subscribe((data) => {
         this.games = data.games
         if (data.games.length === 0) {

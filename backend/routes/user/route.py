@@ -24,8 +24,8 @@ rsa = RSA.generate(1024, random_generator)
 private_key = rsa.exportKey()
 cipher = PKCS1_cipher.new(rsa)
 
-public_key = rsa.publickey().exportKey()
-public_key_str = public_key.decode('utf-8')
+public_key = rsa.publickey()
+public_key_str = public_key.exportKey().decode('utf-8')
 
 username_regex = r'^[a-zA-Z0-9_]{3,16}$'
 

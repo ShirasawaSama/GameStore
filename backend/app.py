@@ -33,10 +33,12 @@ jwt = JWTManager(app)
 routes.register_routers(app)
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+def create_app(is_test=False):
+    if is_test:
+        app.config['TESTING'] = True
+    app.run()
+    return app
 
 
 if __name__ == '__main__':
-    app.run()
+    create_app()

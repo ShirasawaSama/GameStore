@@ -3,3 +3,4 @@ pymongo[srv]
 Flask-PyMongo
 flask_jwt_extended
 pycryptodome
+pytest

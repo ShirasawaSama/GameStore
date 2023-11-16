@@ -10,7 +10,11 @@ def get_user_by_username(name):
 
 
 def create_user(name, password, salt):
-    return db.users.insert_one({"name": name, "password": password, "salt": salt, likes: []})
+    return db.users.insert_one({"name": name, "password": password, "salt": salt, "likes": []})
+
+
+def delete_user(name):
+    return db.users.delete_one({"name": name})
 
 
 def update_user(name, password):
