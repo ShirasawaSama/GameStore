@@ -1,1 +1,10 @@
-<p>profile works!</p>
+<div class="profile">
+  <h1><span class="name">{{auth.currentUser?.sub}}</span>'s favorites: <span class="right">
+    <button mat-icon-button matTooltip="Change Your Password">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Logout" (click)="auth.logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </span></h1>
+</div>

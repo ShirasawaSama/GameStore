@@ -49,7 +49,7 @@ def get_game(game_id):
     return jsonify(game=game)
 
 
-@blueprint.post('/get_games')
+@blueprint.post('/find')
 def get_games_by_ids():
     data = request.get_json()
     ids = data.get('ids', None)

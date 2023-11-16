@@ -1,8 +1,8 @@
 <mat-card class="game-card">
-  <img mat-card-image [src]="game.header_image" [alt]="game.name">
+  <a [routerLink]="'/game/' + game._id"><img mat-card-image [src]="game.header_image" [alt]="game.name"></a>
 
   <mat-card-header class="card-header">
-    <mat-card-title>{{game.name}}</mat-card-title>
+    <mat-card-title><a [routerLink]="'/game/' + game._id">{{game.name}}</a></mat-card-title>
     <mat-card-subtitle class="subtitle">{{game.publishers.join(', ')}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content class="description">

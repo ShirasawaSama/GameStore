@@ -4,10 +4,11 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { HttpClient } from '@angular/common/http'
 
 import { JwtHelperService } from '@auth0/angular-jwt'
-import { Observable, map, mergeMap } from 'rxjs'
+import { Observable, map, mergeMap, Subject } from 'rxjs'
 import JSEncrypt from 'jsencrypt'
 
 import { User } from '../types'
+import { Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,14 @@ import { User } from '../types'
 export class AuthService {
   public currentUser?: User
   private readonly apiUrl = '/api/user'
+  readonly likesUpdate$ = new Subject<void>()
 
   constructor (
     private readonly jwtHelperService: JwtHelperService,
     private readonly snackBar: MatSnackBar,
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    private readonly router: Router,
+    private readonly snackBarService: MatSnackBar
   ) {
     const token = localStorage.getItem('token')
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -65,6 +69,9 @@ export class AuthService {
 
   logout (): void {
     this.currentUser = undefined
+    localStorage.removeItem('token')
+    this.snackBarService.open('Logged out', 'Close', { duration: 5000 })
+    void this.router.navigate(['/'])
   }
 
   updateLikes (): void {
@@ -76,6 +83,7 @@ export class AuthService {
         response.likes.forEach((like) => {
           likes[like] = true
         })
+        this.likesUpdate$.next()
       }
     })
   }

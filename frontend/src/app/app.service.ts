@@ -3,6 +3,11 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import type { Observable } from 'rxjs'
 import type { Game } from '../types'
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { ActivatedRoute, Router } from '@angular/router'
+import { ProfileComponent } from './profile/profile.component'
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { AuthService } from './auth.service'
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +21,25 @@ export default class GameService {
   pageSize = 9
   length = 0
   pageIndex = 0
+  private isProfilePage = false
+
+  constructor (
+    private readonly http: HttpClient,
+    router: Router,
+    activedRouter: ActivatedRoute,
+    private readonly auth: AuthService
+  ) {
+    auth.likesUpdate$.subscribe(() => this.getLikeGames())
+    router.events.subscribe(() => {
+      const value = activedRouter.firstChild?.component === ProfileComponent
+      if (value !== this.isProfilePage) {
+        this.isProfilePage = value
+        this.pageIndex = 0
+      }
+      if (!value) setTimeout(() => this.searchGames(), 500)
+    })
+    this.searchGames()
+  }
 
   get searchTag (): string { return this._searchTag }
   set searchTag (value: string) {
@@ -24,27 +48,45 @@ export default class GameService {
     this.searchGames()
   }
 
-  searchGames (): void {
+  private getLikeGames (): void {
+    if (!this.isProfilePage) return
     this.games = []
+    const likes = this.auth.currentUser?.likes
+    if (!likes) return
+    const arr = Object.keys(likes)
+    this.length = arr.length
     this.searchInfo = 'Searching...'
-    this.http.get<{
-      games: Game[]
-      total: number
-      pageSize: number
-      page: number
-    }>(`${this.apiUrl}/search?search=${this.search}&page=${this.pageIndex}&page_size=${this.pageSize}&tags=${this.searchTag}`).subscribe((data) => {
+    this.http.post<{ games: Game[] }>(`${this.apiUrl}/find`, {
+      ids: arr.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize)
+    }).subscribe((data) => {
       this.games = data.games
       if (data.games.length === 0) {
         this.searchInfo = 'No results found.'
       }
-      this.length = data.total
-      this.pageSize = data.pageSize
-      this.pageIndex = data.page
     })
   }
 
-  constructor (private readonly http: HttpClient) {
-    this.searchGames()
+  searchGames (): void {
+    if (this.isProfilePage && this.auth.currentUser) {
+      this.getLikeGames()
+    } else {
+      this.games = []
+      this.searchInfo = 'Searching...'
+      this.http.get<{
+        games: Game[]
+        total: number
+        pageSize: number
+        page: number
+      }>(`${this.apiUrl}/search?search=${this.search}&page=${this.pageIndex}&page_size=${this.pageSize}&tags=${this.searchTag}`).subscribe((data) => {
+        this.games = data.games
+        if (data.games.length === 0) {
+          this.searchInfo = 'No results found.'
+        }
+        this.length = data.total
+        this.pageSize = data.pageSize
+        this.pageIndex = data.page
+      })
+    }
   }
 
   getRandomGames (): Observable<any> {

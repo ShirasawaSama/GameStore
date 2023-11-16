@@ -24,6 +24,7 @@ import type { Game } from '../types'
 import { MatChipsModule } from '@angular/material/chips'
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { AuthService } from './auth.service'
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 @Component({
   selector: 'app-root',
@@ -31,7 +32,7 @@ import { AuthService } from './auth.service'
   imports: [
     CommonModule, RouterModule, MatToolbarModule, MatButtonModule, MatIconModule, FormsModule, MatDialogModule, MatMenuModule,
     MatInputModule, MatFormFieldModule, HttpClientModule, NgFor, NgIf, GameCardComponent, MatPaginatorModule, MatSnackBarModule,
-    MatChipsModule
+    MatChipsModule, MatTooltipModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
