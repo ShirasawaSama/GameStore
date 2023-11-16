@@ -49,6 +49,16 @@ def get_game(game_id):
     return jsonify(game=game)
 
 
+@blueprint.post('/get_games')
+def get_games_by_ids():
+    data = request.get_json()
+    ids = data.get('ids', None)
+    if not ids:
+        return jsonify({'error': 'Game ids cannot be empty'})
+    games = model.get_games_by_ids(ids)
+    return jsonify(games=[game for game in games])
+
+
 @blueprint.post('/<game_id>')
 def add_game(game_id):
     game = model.get_game_by_id(game_id)

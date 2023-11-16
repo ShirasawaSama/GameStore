@@ -7,6 +7,10 @@ def get_game_by_id(game_id):
     return db.games.find_one({"_id": game_id})
 
 
+def get_games_by_ids(game_ids):
+    return db.games.find({"_id": {"$in": game_ids}})
+
+
 def get_games(page, page_size, sort, sort_order, search, tags):
     query = {}
     if search:

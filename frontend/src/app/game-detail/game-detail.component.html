@@ -90,8 +90,8 @@
       <h3 class="shadow-text">ABOUT THE GAME</h3>
       <p class="about-the-game shadow-text">{{game.about_the_game}}</p>
 
-      <h3 class="shadow-text">COMMENTS</h3>
-      <div class="comment-wrapper shadow-text" *ngIf="game.comments">
+      <h3 class="shadow-text" *ngIf="game.comments?.length">COMMENTS</h3>
+      <div class="comment-wrapper shadow-text" *ngIf="game.comments?.length">
         <div class="comment" *ngFor="let comment of game.comments">
           <h4 class="user">
             <div class="name">{{comment.username}}</div>

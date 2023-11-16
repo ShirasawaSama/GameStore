@@ -41,6 +41,7 @@ export class AppComponent implements OnInit {
   randomGames: Game[] = []
   currentRandomGame: Game | null = null
   currentGame = ''
+  isHomePage = true
 
   private readonly search$ = new Subject<void>()
 
@@ -57,6 +58,7 @@ export class AppComponent implements OnInit {
 
   private checkHomePage (): void {
     this.currentGame = this.activedRouter.snapshot.firstChild?.params?.['gameId']
+    this.isHomePage = this.activedRouter.firstChild?.component == null
   }
 
   get search (): string { return this.service.search }
@@ -69,7 +71,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  get currentGameId (): string { return this.currentGame || (this.currentRandomGame?._id ?? '') }
+  get currentGameId (): string { return this.currentGame || (this.isHomePage ? this.currentRandomGame?._id ?? '' : '') }
 
   ngOnInit (): void {
     this.service.getRandomGames().subscribe((games) => {
@@ -94,7 +96,9 @@ export class AppComponent implements OnInit {
   }
 
   openLoginDialog (): void {
-    if (!this.auth.currentUser) {
+    if (this.auth.currentUser) {
+      void this.router.navigate(['/profile'])
+    } else {
       this.dialog.open(LoginDialog)
     }
   }
