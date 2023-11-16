@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { HttpClient } from '@angular/common/http'
 
 import { JwtHelperService } from '@auth0/angular-jwt'
-import { Observable, map, mergeMap, Subject } from 'rxjs'
+import { Observable, map, mergeMap, Subject, forkJoin } from 'rxjs'
 import JSEncrypt from 'jsencrypt'
 
 import { User } from '../types'
@@ -63,8 +63,20 @@ export class AuthService {
     return this.action('register', username, password)
   }
 
-  changePassword (password: string): Observable<boolean> {
-    return this.action('change-password', this.currentUser?.sub ?? '', password)
+  changePassword (oldPassword: string, password: string): Observable<boolean> {
+    return forkJoin([this.encryptPassword(oldPassword), this.encryptPassword(password)]).pipe(
+      mergeMap(([oldEncrypted, encrypted]) => this.http.patch<{ error?: string, success?: boolean }>(
+        `${this.apiUrl}/change-password`,
+        { old_password: oldEncrypted, password: encrypted }
+      )),
+      map((response) => {
+        if (response.error) {
+          this.snackBar.open(response.error, 'Close', { duration: 5000 })
+          return false
+        }
+        return !!response.success
+      })
+    )
   }
 
   logout (): void {

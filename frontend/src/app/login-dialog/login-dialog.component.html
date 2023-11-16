@@ -1,33 +1,45 @@
 <h1 mat-dialog-title>
-  @if (isRegister) {
-    Register
-  } @else {
-    Login
+  @switch (type) {
+    @case (1) { Register }
+    @case (2) { Change Password }
+    @default { Login }
   }
 </h1>
 <div mat-dialog-content>
-  <p>Welcome to GameStore!</p>
+  <p>
+    @if (type === 2) {
+      Change your password here.
+    } @else {
+      Welcome to GameStore!
+    }
+  </p>
   <div class="fields">
-    <mat-form-field>
-      <mat-label>USERNAME</mat-label>
-      <input matInput [(ngModel)]="username">
-    </mat-form-field>
+    @if (type === 0) {
+      <mat-form-field>
+        <mat-label>USERNAME</mat-label>
+        <input matInput [(ngModel)]="username" name="username">
+      </mat-form-field>
+    } @else if (type === 2) {
+      <mat-form-field>
+        <mat-label>OLD PASSWORD</mat-label>
+        <input type="password" matInput [(ngModel)]="oldPassword" name="password">
+      </mat-form-field>
+    }
     <mat-form-field>
       <mat-label>PASSWORD</mat-label>
-      <input type="password" matInput [(ngModel)]="password">
+      <input type="password" matInput [(ngModel)]="password" name="password">
     </mat-form-field>
-    @if (isRegister) {
+    @if (type === 1 || type === 2) {
       <mat-form-field>
         <mat-label>CONFIRM PASSWORD</mat-label>
-        <input type="password" matInput [(ngModel)]="confirmPassword">
+        <input type="password" matInput [(ngModel)]="confirmPassword" autocomplete="off">
       </mat-form-field>
     }
   </div>
   <p>
-    @if (isRegister) {
-      If you already have an account, please <a (click)="isRegister = false" style="font-weight: bold; text-decoration: underline">login</a> first.
-    } @else {
-      If you don't have an account, please <a (click)="isRegister = true" style="font-weight: bold; text-decoration: underline">register</a> first.
+    @switch (type) {
+      @case (0) { If you don't have an account, please <a (click)="type = 1" style="font-weight: bold; text-decoration: underline">register</a> first. }
+      @case (1) { If you already have an account, please <a (click)="type = 0" style="font-weight: bold; text-decoration: underline">login</a> first. }
     }
   </p>
   @if (error) {
@@ -37,10 +49,10 @@
 <div mat-dialog-actions style="justify-content: end">
   <button mat-button (click)="onCancelClick()">Cancel</button>
   <button mat-button (click)="onOkClick()" cdkFocusInitial>
-    @if (isRegister) {
-      Register
-    } @else {
-      Login
+    @switch (type) {
+      @case (1) { Register }
+      @case (2) { Change Password }
+      @default { Login }
     }
   </button>
 </div>

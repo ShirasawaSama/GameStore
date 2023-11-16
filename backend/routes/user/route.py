@@ -82,17 +82,19 @@ def register():
 @jwt_required()
 def change_password():
     username = get_jwt_identity()
+    old_password = request.json.get('old_password', None)
     password = request.json.get('password', None)
 
-    if not username or not password:
+    if not username or not old_password or not password:
         return jsonify({'error': 'Bad username or password'})
 
-    salt = base64.b64encode(Random.new().read(32)).decode('utf-8')
-    password = encrypt_password(password, salt)
+    user = model.get_user_by_username(username)
+    if not user or encrypt_password(old_password, user['salt']) != user['password']:
+        return jsonify({'error': 'Wrong password'})
 
-    model.update_user(username, password)
+    model.update_user(username, encrypt_password(password, user['salt']))
 
-    return jsonify(access_token=create_access_token(identity=username))
+    return jsonify(success=True)
 
 
 @blueprint.put('/likes/<game_id>')
