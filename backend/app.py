@@ -24,7 +24,7 @@ config.read(os.path.abspath(os.path.join('config.ini')))
 app = Flask(__name__, static_url_path='')
 app.config["APPLICATION_ROOT"] = "/api"
 app.config['JWT_SECRET_KEY'] = config['PROD']['JWT_SECRET_KEY']
-app.config['MONGO_URI'] = config['PROD']['DB_URI']
+app.config['MONGO_URI'] = os.getenv('DB_URI') or config['PROD']['DB_URI']
 app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix='/api')
 jwt = JWTManager(app)
 routes.register_routers(app)

@@ -13,6 +13,8 @@ services:
             - "27017:27017"
         volumes:
             - ./db/:/docker-entrypoint-initdb.d/:ro
+        networks:
+            - backend
 
     backend:
         build: .
@@ -24,5 +26,13 @@ services:
             - prod
         depends_on:
             - mongodb
+        networks:
+            - backend
         volumes:
             - .:/app:ro
+        environment:
+            - DB_URI=mongodb://admin:admin@mongodb/GameStore
+
+networks:
+    backend:
+        driver: bridge

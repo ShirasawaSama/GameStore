@@ -8,4 +8,6 @@ WORKDIR /app
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
-CMD python -m flask run
+EXPOSE 5000
+
+ENTRYPOINT python -m flask run --host 0.0.0.0 --port 5000
