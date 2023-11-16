@@ -45,7 +45,7 @@ def get_random_games():
 def get_game(game_id):
     game = model.get_game_by_id(game_id)
     if not game:
-        return jsonify({'error': 'Game not found'})
+        return jsonify({'error': 'Game not found'}), 404
     return jsonify(game=game)
 
 
@@ -54,7 +54,7 @@ def get_games_by_ids():
     data = request.get_json()
     ids = data.get('ids', None)
     if not ids:
-        return jsonify({'error': 'Game ids cannot be empty'})
+        return jsonify({'error': 'Game ids cannot be empty'}), 400
     games = model.get_games_by_ids(ids)
     return jsonify(games=[game for game in games])
 
@@ -63,7 +63,7 @@ def get_games_by_ids():
 def add_game(game_id):
     game = model.get_game_by_id(game_id)
     if not game:
-        return jsonify({'error': 'Game not found'})
+        return jsonify({'error': 'Game not found'}), 404
     return jsonify(model.add_game(game))
 
 
@@ -74,11 +74,11 @@ def add_comment(game_id):
     comment = data.get('comment', None)
     username = get_jwt_identity()
     if not username:
-        return jsonify({'error': 'User not found'})
+        return jsonify({'error': 'User not found'}), 401
     if not comment:
-        return jsonify({'error': 'Comment cannot be empty'})
+        return jsonify({'error': 'Comment cannot be empty'}), 400
     if len(comment) > 500:
-        return jsonify({'error': 'Comment cannot be longer than 500 characters'})
+        return jsonify({'error': 'Comment cannot be longer than 500 characters'}), 400
     return jsonify(result=model.add_comment(game_id, username, comment).acknowledged)
 
 
@@ -87,7 +87,7 @@ def add_comment(game_id):
 def delete_comment(game_id, comment_id):
     username = get_jwt_identity()
     if not username:
-        return jsonify({'error': 'User not found'})
+        return jsonify({'error': 'User not found'}), 401
     return jsonify(result=model.delete_comment(game_id, username, comment_id).acknowledged)
 
 
@@ -96,7 +96,7 @@ def delete_comment(game_id, comment_id):
 def like_comment(game_id, comment_id):
     username = get_jwt_identity()
     if not username:
-        return jsonify({'error': 'User not found'})
+        return jsonify({'error': 'User not found'}), 401
     return jsonify(result=model.like_comment(game_id, username, comment_id).acknowledged)
 
 
@@ -105,5 +105,5 @@ def like_comment(game_id, comment_id):
 def unlike_comment(game_id, comment_id):
     username = get_jwt_identity()
     if not username:
-        return jsonify({'error': 'User not found'})
+        return jsonify({'error': 'User not found'}), 401
     return jsonify(result=model.unlike_comment(game_id, username, comment_id).acknowledged)

@@ -49,11 +49,11 @@ def login():
     password = request.json.get('password', None)
 
     if not username or not password or not re.match(username_regex, username):
-        return jsonify({'error': 'Bad username or password'})
+        return jsonify({'error': 'Bad username or password'}), 400
 
     user = model.get_user_by_username(username)
     if not user or encrypt_password(password, user['salt']) != user['password']:
-        return jsonify({'error': 'Bad username or password'})
+        return jsonify({'error': 'Bad username or password'}), 400
 
     return jsonify(access_token=create_access_token(identity=username, expires_delta=False))
 
@@ -64,11 +64,11 @@ def register():
     password = request.json.get('password', None)
 
     if not username or not password or not re.match(username_regex, username):
-        return jsonify({'error': 'Bad username or password'})
+        return jsonify({'error': 'Bad username or password'}), 400
 
     user = model.get_user_by_username(username)
     if user:
-        return jsonify({'error': 'User already exists'})
+        return jsonify({'error': 'User already exists'}), 403
 
     salt = base64.b64encode(Random.new().read(32)).decode('utf-8')
     password = encrypt_password(password, salt)
@@ -85,12 +85,15 @@ def change_password():
     old_password = request.json.get('old_password', None)
     password = request.json.get('password', None)
 
-    if not username or not old_password or not password:
-        return jsonify({'error': 'Bad username or password'})
+    if not username:
+        return jsonify({'error': 'User not found'}), 401
+
+    if not old_password or not password:
+        return jsonify({'error': 'Bad username or password'}), 400
 
     user = model.get_user_by_username(username)
     if not user or encrypt_password(old_password, user['salt']) != user['password']:
-        return jsonify({'error': 'Wrong password'})
+        return jsonify({'error': 'Wrong password'}), 403
 
     model.update_user(username, encrypt_password(password, user['salt']))
 
@@ -102,7 +105,7 @@ def change_password():
 def like_game(game_id):
     username = get_jwt_identity()
     if not username:
-        return jsonify({'error': 'User not found'})
+        return jsonify({'error': 'User not found'}), 401
     return jsonify(result=model.like_game(game_id, username).acknowledged)
 
 
@@ -111,7 +114,7 @@ def like_game(game_id):
 def unlike_game(game_id):
     username = get_jwt_identity()
     if not username:
-        return jsonify({'error': 'User not found'})
+        return jsonify({'error': 'User not found'}), 401
     return jsonify(result=model.unlike_game(game_id, username).acknowledged)
 
 
@@ -120,5 +123,5 @@ def unlike_game(game_id):
 def get_likes():
     username = get_jwt_identity()
     if not username:
-        return jsonify({'error': 'User not found'})
+        return jsonify({'error': 'User not found'}), 401
     return jsonify(likes=model.get_user_by_username(username)['likes'])
