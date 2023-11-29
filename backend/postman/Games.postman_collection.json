@@ -1,0 +1,767 @@
+{
+	"info": {
+		"_postman_id": "c72bf994-598d-40a1-b20d-70057b3ecb65",
+		"name": "Games",
+		"description": "Game data related APIs.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4793872"
+	},
+	"item": [
+		{
+			"name": "Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Search game success\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).property('total').to.be.greaterThan(0);",
+							"    pm.expect(jsonData).property('games').to.not.be.undefined",
+							"});",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:5000/api/game/search?search=the&sort_order=asc&sort=recommendations&tags=FPS&page=0&page_size=9",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"game",
+						"search"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "the",
+							"description": "Search value"
+						},
+						{
+							"key": "sort_order",
+							"value": "asc",
+							"description": "Sort order (asc, desc)"
+						},
+						{
+							"key": "sort",
+							"value": "recommendations",
+							"description": "Sort by a field"
+						},
+						{
+							"key": "tags",
+							"value": "FPS",
+							"description": "Search by tags"
+						},
+						{
+							"key": "page",
+							"value": "0",
+							"description": "Page index"
+						},
+						{
+							"key": "page_size",
+							"value": "9",
+							"description": "Elements size in one page"
+						}
+					]
+				},
+				"description": "Search games."
+			},
+			"response": [
+				{
+					"name": "example",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:5000/api/game/search?search=the&sort_order=asc&sort=recommendations&tags=FPS&page=0&page_size=9",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"game",
+								"search"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "the",
+									"description": "Search value"
+								},
+								{
+									"key": "sort_order",
+									"value": "asc",
+									"description": "Sort order (asc, desc)"
+								},
+								{
+									"key": "sort",
+									"value": "recommendations",
+									"description": "Sort by a field"
+								},
+								{
+									"key": "tags",
+									"value": "FPS",
+									"description": "Search by tags"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page index"
+								},
+								{
+									"key": "page_size",
+									"value": "9",
+									"description": "Elements size in one page"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.0"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Nov 2023 11:11:14 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "61333"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"games\": [\n        {\n            \"_id\": \"234510\",\n            \"about_the_game\": \"INCLUDES ALL RED ORCHESTRA 2 MULTIP\",\n            \"achievements\": 0,\n            \"average_playtime_2weeks\": 0,\n            \"average_playtime_forever\": 0,\n            \"categories\": [\n                \"Multi-player\",\n                \"Steam Achievements\",\n                \"Steam Trading Cards\",\n                \"Steam Workshop\",\n                \"Includes level editor\"\n            ],\n            \"developers\": [\n                \"Tripwire Interactive\",\n                \"Anti Matter Games\"\n            ],\n            \"dlc_count\": 0,\n            \"estimated_owners\": \"500000 - 1000000\",\n            \"full_audio_languages\": [\n                \"English\",\n                \"Polish\"\n            ],\n            \"genres\": [\n                \"Action\"\n            ],\n            \"header_image\": \"https://cdn.akamai.steamstatic.com/steam/apps/234510/header.jpg?t=1552425382\",\n            \"linux\": false,\n            \"mac\": false,\n            \"median_playtime_2weeks\": 0,\n            \"median_playtime_forever\": 0,\n            \"metacritic_score\": 82,\n            \"metacritic_url\": \"https://www.metacritic.com/game/pc/rising-storm?ftag=MCD-06-10aaa1f\",\n            \"movies\": [\n                \"http://cdn.akamai.steamstatic.com/steam/apps/2035617/movie_max.mp4?t=1447365213\",\n                \"http://cdn.akamai.steamstatic.com/steam/apps/2034642/movie_max.mp4?t=1447363828\"\n            ],\n            \"name\": \"Rising Storm Game of the Year Edition\",\n            \"negative\": 1,\n            \"packages\": [\n                {\n                    \"description\": \"\",\n                    \"subs\": [\n                        {\n                            \"description\": \"\",\n                            \"price\": 9.99,\n                            \"text\": \"Rising Storm - Digital Deluxe Upgrade - $9.99\"\n                        }\n                    ],\n                    \"title\": \"Buy Rising Storm Game of the Year Edition\"\n                }\n            ],\n            \"peak_ccu\": 0,\n            \"positive\": 104,\n            \"price\": 19.99,\n            \"publishers\": [\n                \"Tripwire Interactive\"\n            ],\n            \"recommendations\": 0,\n            \"release_date\": \"May 30, 2013\",\n            \"required_age\": 0,\n            \"reviews\": \"“The finest WWII multiplayer shooter ever made” 86/100 – PC Gamer “filled with accomplished features and brave ideas” Rock Paper Shotgun “one of the best military FPS games I've played” 8.3/10 – IGN \",\n            \"score_rank\": \"\",\n            \"screenshots\": [\n                \"https://cdn.akamai.steamstatic.com/steam/apps/234510/ss_389b474cc6ef48e5b1550b9af517d28dc2c8ffae.1920x1080.jpg?t=1552425382\",\n                \"https://cdn.akamai.steamstatic.com/steam/apps/234510/ss_6f3c5316f77a05b752b4271760d4db3a973a293e.1920x1080.jpg?t=1552425382\"\n            ],\n            \"short_description\": \"Also contains all multi-player content from Red Orchestra 2: Heroes of Stalingrad\",\n            \"support_email\": \"\",\n            \"support_url\": \"http://support.tripwireinteractive.com/\",\n            \"supported_languages\": [\n                \"English\",\n                \"German\",\n                \"French\",\n                \"Italian\",\n                \"Russian\",\n                \"Polish\"\n            ],\n            \"tags\": {\n                \"Action\": 223,\n                \"Difficult\": 89,\n                \"FPS\": 250,\n                \"First-Person\": 160,\n                \"Gore\": 36,\n                \"Historical\": 108,\n                \"Massively Multiplayer\": 34,\n                \"Military\": 104,\n                \"Moddable\": 57,\n                \"Multiplayer\": 217,\n                \"Open World\": 34,\n                \"Realistic\": 378,\n                \"Shooter\": 126,\n                \"Simulation\": 83,\n                \"Strategy\": 68,\n                \"Survival\": 36,\n                \"Tactical\": 170,\n                \"Team-Based\": 76,\n                \"War\": 127,\n                \"World War II\": 270\n            },\n            \"user_score\": 0,\n            \"website\": \"http://risingstormgame.com/\",\n            \"windows\": true\n        }\n    ],\n    \"page\": 0,\n    \"pageSize\": 9,\n    \"total\": 81\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Detail of A Game",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Request success\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).property('game').property('name', 'Grand Theft Auto V');",
+							"});",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:5000/api/game/:game-id",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"game",
+						":game-id"
+					],
+					"variable": [
+						{
+							"key": "game-id",
+							"value": "271590",
+							"description": "Id of the game "
+						}
+					]
+				},
+				"description": "Get details of a game by its id."
+			},
+			"response": [
+				{
+					"name": "example",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:5000/api/game/:game-id",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"game",
+								":game-id"
+							],
+							"variable": [
+								{
+									"key": "game-id",
+									"value": "271590",
+									"description": "Id of the game "
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.0"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Nov 2023 11:18:53 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "19532"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"game\": {\n        \"_id\": \"271590\",\n        \"about_the_game\": \"When a young street hustler.\",\n        \"achievements\": 77,\n        \"average_playtime_2weeks\": 656,\n        \"average_playtime_forever\": 13650,\n        \"categories\": [\n            \"Single-player\",\n            \"Multi-player\",\n            \"PvP\",\n            \"Online PvP\",\n            \"Co-op\",\n            \"Online Co-op\",\n            \"Steam Achievements\",\n            \"Full controller support\",\n            \"Remote Play on Phone\",\n            \"Remote Play on Tablet\",\n            \"Remote Play on TV\"\n        ],\n        \"developers\": [\n            \"Rockstar North\"\n        ],\n        \"dlc_count\": 1,\n        \"estimated_owners\": \"20000000 - 50000000\",\n        \"full_audio_languages\": [\n            \"English\",\n            \"Spanish - Latin America\"\n        ],\n        \"genres\": [\n            \"Action\",\n            \"Adventure\"\n        ],\n        \"header_image\": \"https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg?t=1618856444\",\n        \"linux\": false,\n        \"mac\": false,\n        \"median_playtime_2weeks\": 154,\n        \"median_playtime_forever\": 6274,\n        \"metacritic_score\": 96,\n        \"metacritic_url\": \"https://www.metacritic.com/game/pc/grand-theft-auto-v?ftag=MCD-06-10aaa1f\",\n        \"movies\": [\n            \"http://cdn.akamai.steamstatic.com/steam/apps/256738416/movie_max.mp4?t=1563930911\",\n            \"http://cdn.akamai.steamstatic.com/steam/apps/256738408/movie_max.mp4?t=1544815066\"\n        ],\n        \"name\": \"Grand Theft Auto V\",\n        \"negative\": 210154,\n        \"packages\": [\n            {\n                \"description\": \"Cash is king in this town. Solve your money problem and help get what you want across Los Santos and.\",\n                \"subs\": [\n                    {\n                        \"description\": \"Cash is king in this town. Solve your money problem and help get what you want across Los Santos and Blaine County with the occasional purchase of cash packs for Grand Theft Auto Online. All purchased cash is automatically deposited into your character’s bank account. Spend wisely, cash therapy is fleeting. Grand Theft Auto V required to play and sold separately.\",\n                        \"price\": 2.99,\n                        \"text\": \"Red Shark: GTA$100,000 - $2.99\"\n                    }\n                ],\n                \"title\": \"Buy Shark Cash Cards\"\n            }\n        ],\n        \"peak_ccu\": 170527,\n        \"positive\": 1171197,\n        \"price\": 0,\n        \"publishers\": [\n            \"Rockstar Games\"\n        ],\n        \"recommendations\": 1247051,\n        \"release_date\": \"Apr 13, 2015\",\n        \"required_age\": 17,\n        \"reviews\": \"\",\n        \"score_rank\": \"\",\n        \"screenshots\": [\n            \"https://cdn.akamai.steamstatic.com/steam/apps/271590/ss_32aa18ab3175e3002217862dd5917646d298ab6b.1920x1080.jpg?t=1618856444\"\n        ],\n        \"short_description\": \"Grand Theft Auto V for PC offers players the option to explore the award-winning world of Los Santos and Blaine County in resolutions of up to 4k and beyond, as well as the chance to experience the game running at 60 frames per second.\",\n        \"support_email\": \"\",\n        \"support_url\": \"https://support.rockstargames.com\",\n        \"supported_languages\": [\n            \"English\",\n            \"French\",\n            \"Italian\",\n            \"German\",\n            \"Spanish - Spain\",\n            \"Korean\",\n            \"Polish\",\n            \"Portuguese - Brazil\",\n            \"Russian\",\n            \"Traditional Chinese\",\n            \"Japanese\",\n            \"Simplified Chinese\",\n            \"Spanish - Latin America\"\n        ],\n        \"tags\": {\n            \"Action\": 22058,\n            \"Adventure\": 12799,\n            \"Atmospheric\": 9417,\n            \"Automobile Sim\": 17980,\n            \"Co-op\": 9521,\n            \"Comedy\": 7996,\n            \"Crime\": 17920,\n            \"First-Person\": 17344,\n            \"Funny\": 8715,\n            \"Great Soundtrack\": 8190,\n            \"Mature\": 12818,\n            \"Moddable\": 5965,\n            \"Multiplayer\": 20209,\n            \"Open World\": 30185,\n            \"Racing\": 10842,\n            \"Sandbox\": 9322,\n            \"Shooter\": 13831,\n            \"Singleplayer\": 11514,\n            \"Third Person\": 17631,\n            \"Third-Person Shooter\": 11233\n        },\n        \"user_score\": 0,\n        \"website\": \"http://www.rockstargames.com/V/\",\n        \"windows\": true\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Random Games",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Request success\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).property('games').to.not.be.empty",
+							"});",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:5000/api/game/random",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"game",
+						"random"
+					]
+				},
+				"description": "Get 5 random games."
+			},
+			"response": [
+				{
+					"name": "example",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:5000/api/game/random",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"game",
+								"random"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.0"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Nov 2023 11:23:51 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "32654"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"games\": [\n        {\n            \"_id\": \"306660\",\n            \"about_the_game\": \"Ultimate General: Gettysburg is a Tactical\",\n            \"achievements\": 3,\n            \"average_playtime_2weeks\": 0,\n            \"average_playtime_forever\": 226,\n            \"categories\": [\n                \"Single-player\",\n                \"Multi-player\",\n                \"Cross-Platform Multiplayer\",\n                \"Steam Achievements\",\n                \"Steam Trading Cards\",\n                \"Stats\",\n                \"Steam Leaderboards\"\n            ],\n            \"developers\": [\n                \"Game-Labs\"\n            ],\n            \"dlc_count\": 0,\n            \"estimated_owners\": \"200000 - 500000\",\n            \"full_audio_languages\": [\n                \"English\"\n            ],\n            \"genres\": [\n                \"Indie\",\n                \"Simulation\",\n                \"Strategy\"\n            ],\n            \"header_image\": \"https://cdn.akamai.steamstatic.com/steam/apps/306660/header.jpg?t=1562054645\",\n            \"linux\": true,\n            \"mac\": true,\n            \"median_playtime_2weeks\": 0,\n            \"median_playtime_forever\": 286,\n            \"metacritic_score\": 84,\n            \"metacritic_url\": \"https://www.metacritic.com/game/pc/ultimate-general-gettysburg?ftag=MCD-06-10aaa1f\",\n            \"movies\": [\n                \"http://cdn.akamai.steamstatic.com/steam/apps/2032868/movie_max.mp4?t=1447362302\",\n                \"http://cdn.akamai.steamstatic.com/steam/apps/2034993/movie_max.mp4?t=1447364234\"\n            ],\n            \"name\": \"Ultimate General: Gettysburg\",\n            \"negative\": 488,\n            \"packages\": [\n                {\n                    \"description\": \"\",\n                    \"subs\": [\n                        {\n                            \"description\": \"\",\n                            \"price\": 14.99,\n                            \"text\": \"Ultimate General: Gettysburg - $14.99\"\n                        }\n                    ],\n                    \"title\": \"Buy Ultimate General: Gettysburg\"\n                }\n            ],\n            \"peak_ccu\": 16,\n            \"positive\": 2109,\n            \"price\": 14.99,\n            \"publishers\": [\n                \"Game-Labs\"\n            ],\n            \"recommendations\": 2269,\n            \"release_date\": \"Oct 16, 2014\",\n            \"required_age\": 0,\n            \"reviews\": \"“What I played was...fantastic.” Kotaku “One of the 20 best wargames of all time.” PC Gamer “Ultimate General: Gettysburg finds a perfect balance point between history, the depth that wargamers crave, and the effortless simplicity that makes it instantly appealing to a broad audience.” PCGamesN \",\n            \"score_rank\": \"\",\n            \"screenshots\": [\n                \"https://cdn.akamai.steamstatic.com/steam/apps/306660/ss_4d29b05d60fbab528bd54e8fb15d8614af536cc9.1920x1080.jpg?t=1562054645\"\n            ],\n            \"short_description\": \"A Tactical Battle Simulator that allows you to command thousands of soldiers as a Union or Confeder.\",\n            \"support_email\": \"support@game-labs.net\",\n            \"support_url\": \"http://forum.game-labs.net/index.php?/forum/25-support/\",\n            \"supported_languages\": [\n                \"English\"\n            ],\n            \"tags\": {\n                \"Historical\": 117,\n                \"Indie\": 73,\n                \"Military\": 34,\n                \"Multiplayer\": 31,\n                \"RTS\": 90,\n                \"Simulation\": 95,\n                \"Singleplayer\": 40,\n                \"Strategy\": 170,\n                \"Tactical\": 88,\n                \"War\": 48,\n                \"Wargame\": 75\n            },\n            \"user_score\": 0,\n            \"website\": \"http://www.ultimategeneral.com/\",\n            \"windows\": true\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Add Comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Request success\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.deep.eq({ result: true })",
+							"});",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5000/api/game/:game-id/comment",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"game",
+						":game-id",
+						"comment"
+					],
+					"variable": [
+						{
+							"key": "game-id",
+							"value": "271590",
+							"description": "Id of a game"
+						}
+					]
+				},
+				"description": "Add a comment to a game."
+			},
+			"response": [
+				{
+					"name": "example",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:5000/api/game/:game-id/comment",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"game",
+								":game-id",
+								"comment"
+							],
+							"variable": [
+								{
+									"key": "game-id",
+									"value": "271590",
+									"description": "Id of a game"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.0"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Nov 2023 11:26:57 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "16"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"result\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Like A Comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Request success\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.deep.eq({ result: true })",
+							"});",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:5000/api/game/:game-id/comment/:comment-id/like",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"game",
+						":game-id",
+						"comment",
+						":comment-id",
+						"like"
+					],
+					"variable": [
+						{
+							"key": "game-id",
+							"value": "271590",
+							"description": "Id of a game"
+						},
+						{
+							"key": "comment-id",
+							"value": "1",
+							"description": "Id of comment to be like"
+						}
+					]
+				},
+				"description": "Like a comment of the game."
+			},
+			"response": [
+				{
+					"name": "example",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:5000/api/game/:game-id/comment/:comment-id/like",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"game",
+								":game-id",
+								"comment",
+								":comment-id",
+								"like"
+							],
+							"variable": [
+								{
+									"key": "game-id",
+									"value": "271590",
+									"description": "Id of a game"
+								},
+								{
+									"key": "comment-id",
+									"value": "1",
+									"description": "Id of comment to be like"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.0"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Nov 2023 11:29:11 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "16"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"result\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete A Comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Request success\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.deep.eq({ result: true })",
+							"});",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:5000/api/game/:game-id/comment/:comment-id",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"game",
+						":game-id",
+						"comment",
+						":comment-id"
+					],
+					"variable": [
+						{
+							"key": "game-id",
+							"value": "271590",
+							"description": "Id of a game"
+						},
+						{
+							"key": "comment-id",
+							"value": "1",
+							"description": "Id of comment to be like"
+						}
+					]
+				},
+				"description": "Delete an exists comment by id."
+			},
+			"response": [
+				{
+					"name": "Like A Comment Copy",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:5000/api/game/:game-id/comment/:comment-id",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"game",
+								":game-id",
+								"comment",
+								":comment-id"
+							],
+							"variable": [
+								{
+									"key": "game-id",
+									"value": "271590",
+									"description": "Id of a game"
+								},
+								{
+									"key": "comment-id",
+									"value": "1",
+									"description": "Id of comment to be like"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.0"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Nov 2023 11:30:06 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "16"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"result\": true\n}"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,4 +1,5 @@
 import base64
+import os
 import re
 
 from flask import Blueprint
@@ -29,11 +30,13 @@ public_key_str = public_key.exportKey().decode('utf-8')
 
 username_regex = r'^[a-zA-Z0-9_]{3,16}$'
 
+is_test = os.getenv('TESTING', False)
+
 
 def encrypt_password(password, salt):
     return sha1(
         (sha1(
-            cipher.decrypt(base64.b64decode(password), None).decode('utf-8').encode()
+            (password if is_test else cipher.decrypt(base64.b64decode(password), None).decode('utf-8')).encode()
         ).hexdigest() + salt).encode()
     ).hexdigest()
 
