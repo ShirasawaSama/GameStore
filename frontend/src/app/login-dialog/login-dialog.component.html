@@ -14,15 +14,15 @@
     }
   </p>
   <div class="fields">
-    @if (type === 0) {
-      <mat-form-field>
-        <mat-label>USERNAME</mat-label>
-        <input matInput [(ngModel)]="username" name="username">
-      </mat-form-field>
-    } @else if (type === 2) {
+    @if (type === 2) {
       <mat-form-field>
         <mat-label>OLD PASSWORD</mat-label>
         <input type="password" matInput [(ngModel)]="oldPassword" name="password">
+      </mat-form-field>
+    } @else {
+      <mat-form-field>
+        <mat-label>USERNAME</mat-label>
+        <input matInput [(ngModel)]="username" name="username">
       </mat-form-field>
     }
     <mat-form-field>
